@@ -1,13 +1,100 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ✅ Basic Meta Tags -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resumio</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- ✅ SEO Meta -->
+    <title>Resumio – Modern Resume Builder</title>
+    <meta
+      name="description"
+      content="Resumio is a modern and user-friendly resume builder that helps you create professional resumes in minutes. Simple, fast, and customizable."
+    />
+    <meta
+      name="keywords"
+      content="resume builder, online CV maker, professional resumes, job applications, resume templates, resumio"
+    />
+    <meta name="author" content="Resumio Team" />
+
+    <!-- ✅ Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- ✅ Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ External CSS -->
+    <link rel="stylesheet" href="./src/styles/hero.css" />
   </head>
   <body>
+    <!-- ✅ Hero Section -->
+    <div class="hero-container">
+      <div class="hero-card">
+        <img src="/favicon.svg" alt="Resumio Logo" width="90" />
+        <h1 class="hero-title">Your career. Your resume. Built beautifully.</h1>
+        <p class="hero-subtext">
+          Resumio helps you create a professional, standout resume in minutes with a
+          simple, step-by-step form-based experience.
+        </p>
+        <button class="hero-btn" onclick="document.getElementById('steps').scrollIntoView({behavior:'smooth'})">
+          Start Building
+        </button>
+      </div>
+    </div>
+
+    <!-- ✅ Steps Section -->
+    <section id="steps" class="steps-section">
+      <h2>Build Your Resume in 3 Easy Steps</h2>
+      <div class="steps-container">
+        <div class="step-card">
+          <span>1️⃣</span>
+          <h3>Fill in Your Details</h3>
+          <p>Answer simple, guided questions to capture your career information.</p>
+        </div>
+        <div class="step-card">
+          <span>2️⃣</span>
+          <h3>Choose a Template</h3>
+          <p>Select from multiple clean, professional resume templates.</p>
+        </div>
+        <div class="step-card">
+          <span>3️⃣</span>
+          <h3>Download & Apply</h3>
+          <p>Download your polished resume and make your job application shine.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Testimonials Section -->
+    <section class="testimonials-section">
+      <h2>Trusted by Job Seekers Worldwide 🌍</h2>
+      <div class="testimonials-container">
+        <div class="testimonial-card">
+          <p>"Resumio made building my resume effortless and professional-looking in minutes."</p>
+          <h4>– Sarah J.</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>"I landed 3 interviews within a week thanks to my improved resume!"</p>
+          <h4>– Mark D.</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>"The step-by-step form makes resume building so easy. Highly recommend!"</p>
+          <h4>– Priya S.</h4>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ React App Mount -->
     <div id="root"></div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,54 +1,160 @@
-/* src/index.css (or main.css) */
-
+/* Reset and Base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html,
 body {
-  height: 100%;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom right, #eef2ff, #dbeafe);
-  color: #111827;
-  -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', sans-serif;
+  background: #f9fafb;
+  color: #1f2937;
+  overflow-x: hidden;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* ✅ Animated Gradient Background */
+.hero-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(270deg, #3b82f6, #2563eb, #1d4ed8);
+  background-size: 600% 600%;
+  animation: gradientBG 12s ease infinite;
+  overflow: hidden;
 }
 
-button {
-  font-family: inherit;
-  transition: all 0.2s ease-in-out;
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-input,
-textarea,
-button {
-  outline: none;
-  font-family: inherit;
+/* ✅ Glassmorphism Card */
+.hero-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3rem 2.5rem;
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  text-align: center;
+  animation: fadeInUp 1s ease forwards;
 }
 
-/* Scrollbar Styling (optional) */
-::-webkit-scrollbar {
-  width: 8px;
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #fff;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #a5b4fc;
-  border-radius: 4px;
+.hero-subtext {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  color: #f0f9ff;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #818cf8;
+.hero-btn {
+  background: white;
+  color: #2563eb;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
+.hero-btn:hover {
+  background: #f0f9ff;
+  transform: translateY(-2px);
+}
 
+/* ✅ Steps Section */
+.steps-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #fff;
+}
 
+.steps-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
 
+.steps-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
 
+.step-card {
+  flex: 1 1 250px;
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
 
+.step-card span {
+  font-size: 2rem;
+}
+
+.step-card h3 {
+  margin: 0.8rem 0;
+  color: #2563eb;
+}
+
+/* ✅ Testimonials Section */
+.testimonials-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f3f4f6;
+}
+
+.testimonials-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.testimonials-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  flex: 1 1 250px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-style: italic;
+}
+
+/* ✅ Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ Responsive */
+@media (max-width: 640px) {
+  .hero-title { font-size: 2.2rem; }
+  .hero-subtext { font-size: 1rem; }
+  .hero-btn { padding: 0.9rem 1.6rem; font-size: 1rem; }
+}

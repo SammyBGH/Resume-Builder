@@ -1,0 +1,136 @@
+/* Reset and Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #1f2937;
+  overflow-x: hidden;
+}
+
+/* ✅ Hero Section */
+.hero-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  overflow: hidden;
+}
+
+/* Decorative background wave */
+.hero-container::before {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: white;
+  clip-path: ellipse(70% 100% at 50% 100%);
+  z-index: 1;
+}
+
+/* ✅ Glassmorphism Card */
+.hero-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3rem 2.5rem;
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  text-align: center;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.hero-card img {
+  width: 90px;
+  margin-bottom: 1rem;
+  animation: fadeInDown 0.8s ease-in-out;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #fff;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.hero-subtext {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  color: #f0f9ff;
+  animation: fadeInUp 1.2s ease-in-out;
+}
+
+.hero-btn {
+  background: white;
+  color: #2563eb;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 1.4s ease-in-out;
+}
+
+.hero-btn:hover {
+  background: #f0f9ff;
+  transform: translateY(-2px);
+}
+
+/* ✅ Simple entrance animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-subtext {
+    font-size: 1rem;
+  }
+
+  .hero-btn {
+    padding: 0.9rem 1.6rem;
+    font-size: 1rem;
+  }
+}
