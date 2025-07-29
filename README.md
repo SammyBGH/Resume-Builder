@@ -92,13 +92,13 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 
 ### 1️⃣ Main App Interface (Form with Questions)
 
-![Main Interface](./assets/screenshots/form-interface.png)
+![Main Interface](./src/assets/screenshots/form-interface.png)
 
 ---
 
 ### 2️⃣ Generated Resume Preview
 
-![Resume Preview](./assets/screenshots/resume-preview.png)
+![Resume Preview](./src/assets/screenshots/resume-preview.png)
 
 ---
 
