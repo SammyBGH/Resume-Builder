@@ -127,5 +127,3 @@ This project is licensed under the **MIT License** – you are free to use, modi
 
 If you find this project useful, don't forget to ⭐ **star the repo** to help others discover it!
 
-```
-```
