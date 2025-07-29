@@ -1,0 +1,239 @@
+.resume-preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto;
+}
+
+/* Template Selector */
+.template-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.template-selector button {
+  padding: 0.6rem 1.3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f3f4f6;
+  color: #374151;
+  transition: all 0.25s ease;
+  min-width: 100px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.template-selector button:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.template-selector button.active {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  border-color: #1e3a8a;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transform: scale(1.05);
+}
+
+/* Resume Layout */
+.resume-preview {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 850px;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1e293b;
+  border: 1px solid #e5e7eb;
+}
+
+.resume-header {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.resume-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: inherit;
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.section {
+  margin-top: 1.8rem;
+}
+
+.section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
+}
+
+.section p,
+.section ul {
+  margin-left: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.section ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.section ul li {
+  margin-bottom: 0.3rem;
+}
+
+.icon {
+  font-size: 1rem;
+}
+
+.resume-preview ul li::marker {
+  font-weight: bold;
+}
+
+/* ✅ Language Proficiency Styling */
+.section ul li .proficiency {
+  font-style: italic;
+  color: #555;
+  margin-left: 5px;
+  font-size: 0.9rem;
+}
+
+/* Modern Template */
+.template-modern .resume-header h1 {
+  color: #1e40af;
+}
+
+.template-modern .contact-info {
+  color: #374151;
+}
+
+.template-modern .section h2 {
+  color: #1d4ed8;
+  border-bottom: 2px solid #1d4ed8;
+}
+
+.template-modern ul li::marker {
+  color: #2563eb;
+}
+
+/* Classic Template */
+.template-classic {
+  border: 2px solid #000;
+  font-family: 'Times New Roman', serif;
+  background-color: #fdfdfd;
+}
+
+.template-classic .resume-header h1 {
+  color: #000;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 5px;
+}
+
+.template-classic .contact-info {
+  color: #111;
+  font-style: italic;
+}
+
+.template-classic .section h2 {
+  color: #000;
+  border-bottom: 1px solid #000;
+  font-weight: bold;
+}
+
+.template-classic ul li::marker {
+  color: #000;
+}
+
+/* Minimal Template */
+.template-minimal {
+  background: #f9fafb;
+  border: none;
+  font-family: 'Helvetica Neue', sans-serif;
+  box-shadow: none;
+}
+
+.template-minimal .resume-header {
+  text-align: center;
+}
+
+.template-minimal .resume-header h1 {
+  color: #111827;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.template-minimal .contact-info {
+  justify-content: center;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.template-minimal .section h2 {
+  color: #374151;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: none;
+}
+
+.template-minimal ul li::marker {
+  color: #777;
+}
+
+/* Download Button */
+.download-btn {
+  margin-top: 1.5rem;
+  padding: 0.85rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #0077ff, #005fcc);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 119, 255, 0.3);
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, #005fcc, #004bb5);
+  transform: translateY(-2px);
+}
+
+/* PDF Export Mode */
+.pdf-export {
+  background: white !important;
+  color: #000 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
