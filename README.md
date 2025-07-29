@@ -52,7 +52,7 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 1. **Clone the repository**
    ```bash
    git clone https://github.com/your-username/resume-builder.git
-````
+
 
 2. **Navigate into the project directory**
 
