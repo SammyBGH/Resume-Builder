@@ -97,6 +97,14 @@
   margin-top: 0.4rem;
   font-size: 0.97rem;
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: justify;
+}
+
+#child1 {
+  padding-left: 22px;
 }
 
 .section ul {

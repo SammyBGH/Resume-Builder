@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="app-container">
       <Header />  {/* ✅ New header */}
+      
       {/* ✅ Hero Section */}
       <Hero />
 

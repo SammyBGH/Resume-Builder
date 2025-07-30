@@ -111,7 +111,7 @@ function ResumePreview({ data }) {
         {(data.program || data.school) && (
           <div className="section">
             <h2><FaGraduationCap className="icon" /> Education</h2>
-            <p>
+            <p id='child1'>
               {data.program && <strong>{data.program}</strong>}<br />
               {data.school && <span className="school-name">{data.school}</span>}
             </p>
