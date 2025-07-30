@@ -35,8 +35,6 @@
   background-color: #3b82f6;
 }
 
-/* Removed Progress Bar styles */
-
 /* Form Question */
 .form-question {
   display: flex;
@@ -70,6 +68,7 @@
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
+/* Navigation Buttons */
 .form-navigation {
   display: flex;
   justify-content: space-between;
@@ -100,7 +99,7 @@
   transform: translateY(-1px);
 }
 
-/* Skills Section */
+/* Skills and Suggestions Section */
 .skills-input {
   position: relative;
 }
@@ -115,6 +114,13 @@
   border-radius: 8px;
   background-color: #f9fafb;
   cursor: text;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.skills-wrapper:focus-within {
+  border-color: #3b82f6;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .skill-tag {
@@ -152,7 +158,7 @@
   background-color: transparent;
 }
 
-/* Dropdown Suggestions */
+/* Dropdown Suggestions (Skills, Languages, Schools) */
 .skill-suggestions {
   list-style: none;
   position: absolute;
@@ -163,9 +169,9 @@
   padding: 0;
   border: 1px solid #d1d5db;
   background: white;
-  z-index: 10;
+  z-index: 20;
   border-radius: 6px;
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -174,10 +180,33 @@
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 0.95rem;
 }
 
 .skill-suggestions li:hover {
   background-color: #f0f9ff;
+}
+
+.skill-suggestions li.highlighted {
+  background-color: #bfdbfe;
+  color: #1e3a8a;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+.skill-suggestions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.skill-suggestions::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+.skill-suggestions::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }
 
 /* Language Proficiency */
