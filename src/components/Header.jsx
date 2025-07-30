@@ -10,8 +10,8 @@ function Header() {
         </div>
         <nav className="header-nav">
           <a href="#steps">How It Works</a>
-          <a href="#builder">Build Resume</a>
           <a href="#testimonials">Testimonials</a>
+          <a href="#builder">Build Resume</a>
         </nav>
         <a href="#builder" className="header-btn">Get Started</a>
       </div>

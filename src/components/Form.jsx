@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import universities from '../data/universities';
 import '../styles/Form.css';
 
 const questions = [
@@ -44,8 +45,10 @@ const Form = ({ onSubmit }) => {
 
   const [skillInput, setSkillInput] = useState('');
   const [languageInput, setLanguageInput] = useState('');
+  const [schoolInput, setSchoolInput] = useState('');
   const [filteredSkills, setFilteredSkills] = useState([]);
   const [filteredLanguages, setFilteredLanguages] = useState([]);
+  const [filteredSchools, setFilteredSchools] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -171,6 +174,27 @@ const Form = ({ onSubmit }) => {
     setFormData({ ...formData, languages: updated });
   };
 
+  // ====================== SCHOOL SUGGESTIONS ======================
+  const handleSchoolInputChange = (e) => {
+    const value = e.target.value;
+    setSchoolInput(value);
+    setFormData({ ...formData, school: value });
+
+    setFilteredSchools(
+      universities.filter(
+        (u) =>
+          u.name.toLowerCase().includes(value.toLowerCase()) ||
+          (u.nickname && u.nickname.toLowerCase().includes(value.toLowerCase()))
+      )
+    );
+  };
+
+  const handleSchoolSelect = (schoolName) => {
+    setFormData({ ...formData, school: schoolName });
+    setSchoolInput(schoolName);
+    setFilteredSchools([]);
+  };
+
   const current = questions[currentQuestion];
 
   return (
@@ -275,6 +299,27 @@ const Form = ({ onSubmit }) => {
                 ))
               ) : (
                 <p>No languages selected yet.</p>
+              )}
+            </div>
+          ) : current.name === 'school' ? (
+            <div className="skills-input">
+              <input
+                type="text"
+                name="school"
+                id="school"
+                value={schoolInput}
+                onChange={handleSchoolInputChange}
+                placeholder="Type your school/university..."
+                autoComplete="off"
+              />
+              {filteredSchools.length > 0 && (
+                <ul className="skill-suggestions">
+                  {filteredSchools.map((u, index) => (
+                    <li key={index} onMouseDown={() => handleSchoolSelect(u.name)}>
+                      {u.name} {u.nickname ? `(${u.nickname})` : ''}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           ) : current.type === 'textarea' ? (
