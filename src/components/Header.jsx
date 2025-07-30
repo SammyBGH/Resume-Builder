@@ -4,6 +4,7 @@ import '../styles/header.css';
 
 function Header({ user, handleLoginSuccess, handleLogout }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const dropdownRef = useRef(null);
 
   // Extract initials from name
@@ -19,11 +20,28 @@ function Header({ user, handleLoginSuccess, handleLogout }) {
     return name.split(" ")[0];
   };
 
+  // Toggle dropdown with closing animation
+  const toggleDropdown = () => {
+    if (dropdownOpen) {
+      setClosing(true);
+      setTimeout(() => {
+        setDropdownOpen(false);
+        setClosing(false);
+      }, 200); // match fadeOut animation duration
+    } else {
+      setDropdownOpen(true);
+    }
+  };
+
   // Close dropdown if clicked outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
+        setClosing(true);
+        setTimeout(() => {
+          setDropdownOpen(false);
+          setClosing(false);
+        }, 200);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -48,7 +66,7 @@ function Header({ user, handleLoginSuccess, handleLogout }) {
             <div className="user-menu" ref={dropdownRef}>
               <div
                 className="user-info clickable"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+                onClick={toggleDropdown}
               >
                 {user.picture && user.picture.trim() !== "" ? (
                   <img
@@ -56,8 +74,11 @@ function Header({ user, handleLoginSuccess, handleLogout }) {
                     alt="profile"
                     className="user-avatar"
                     onError={(e) => {
-                      e.target.onerror = null;
                       e.target.style.display = "none";
+                      e.target.insertAdjacentHTML(
+                        "afterend",
+                        `<div class='user-initials'>${getInitials(user.name)}</div>`
+                      );
                     }}
                   />
                 ) : (
@@ -68,7 +89,7 @@ function Header({ user, handleLoginSuccess, handleLogout }) {
               </div>
 
               {dropdownOpen && (
-                <div className="dropdown-menu">
+                <div className={`dropdown-menu ${closing ? "closing" : ""}`}>
                   <button className="dropdown-item logout" onClick={handleLogout}>
                     Logout
                   </button>

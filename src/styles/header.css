@@ -128,12 +128,21 @@
   padding: 8px 0;
   min-width: 180px;
   z-index: 20;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.dropdown-menu.closing {
+  animation: fadeOut 0.2s ease forwards;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-5px); }
 }
 
 .dropdown-item {
