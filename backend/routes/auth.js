@@ -6,54 +6,84 @@ const router = express.Router();
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// 🗄️ Fake DB (replace with MongoDB or real DB)
+// 🗄️ Temporary In-Memory DB (replace with MongoDB)
 const users = [];
 
-// ✅ Google Authentication
+/**
+ * ✅ Google Authentication
+ * Endpoint: POST /auth/google
+ */
 router.post("/google", async (req, res) => {
   const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({ message: "No Google token provided" });
+  }
+
   try {
+    // Verify the Google token
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();
-    let user = users.find(u => u.googleId === payload.sub);
+
+    // Check if user already exists
+    let user = users.find((u) => u.googleId === payload.sub);
 
     if (!user) {
+      // New user registration
       user = {
         id: users.length + 1,
         googleId: payload.sub,
         email: payload.email,
         name: payload.name,
         picture: payload.picture,
-        formData: {} // store resume form progress
+        formData: {}, // To store resume progress later
       };
       users.push(user);
     }
 
-    const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    // Create JWT for session
+    const jwtToken = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-    res.json({ token: jwtToken, user });
+    res.status(200).json({ token: jwtToken, user });
   } catch (err) {
+    console.error("Google Auth Error:", err);
     res.status(401).json({ message: "Invalid Google token" });
   }
 });
 
-// ✅ Fetch logged-in user
+/**
+ * ✅ Get logged-in user info
+ * Endpoint: GET /auth/me
+ */
 router.get("/me", (req, res) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ message: "No token" });
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
   const token = authHeader.split(" ")[1];
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = users.find(u => u.id === decoded.userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = users.find((u) => u.id === decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.json({ user });
   } catch (err) {
-    res.status(401).json({ message: "Invalid token" });
+    console.error("JWT Verification Error:", err);
+    res.status(401).json({ message: "Invalid or expired token" });
   }
 });
 
