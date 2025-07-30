@@ -1,40 +1,50 @@
 // src/App.jsx
-import Header from './components/Header';
 import React, { useEffect, useState } from 'react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import axios from 'axios';
+
+import Header from './components/Header';
 import Hero from './components/Hero';
 import Steps from './components/Steps';
 import Testimonials from './components/Testimonials';
 import Builder from './components/Builder';
 import Footer from './components/Footer';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+
 import './styles/App.css';
 
 function App() {
   const [user, setUser] = useState(null);
 
-  // ✅ Auto-login if token is saved
+  // ✅ Load user info if token exists
+  const fetchUser = async (token) => {
+    try {
+      const res = await axios.get("http://localhost:5000/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser(res.data.user);
+    } catch (err) {
+      console.error("Auto-login failed:", err);
+      localStorage.removeItem("authToken");
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    if (token) {
-      axios.get("http://localhost:5000/auth/me", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then(res => setUser(res.data.user))
-        .catch(() => localStorage.removeItem("authToken"));
-    }
+    if (token) fetchUser(token);
   }, []);
 
-  // ✅ Handle Google login success
+  // ✅ Handle Google login
   const handleLoginSuccess = async (credentialResponse) => {
     try {
       const res = await axios.post("http://localhost:5000/auth/google", {
         token: credentialResponse.credential,
       });
       localStorage.setItem("authToken", res.data.token);
-      setUser(res.data.user);
+
+      // Immediately fetch full user data (with image)
+      fetchUser(res.data.token);
     } catch (err) {
-      console.error("Login failed", err);
+      console.error("Login failed:", err);
     }
   };
 
@@ -47,23 +57,13 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div className="app-container">
-        <Header />
+        <Header
+          user={user}
+          handleLoginSuccess={handleLoginSuccess}
+          handleLogout={handleLogout}
+        />
 
-        {/* ✅ Show login or welcome message */}
-        <div style={{ textAlign: 'center', margin: '20px' }}>
-          {user ? (
-            <div>
-              <p>Welcome, {user.name} 👋</p>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          ) : (
-            <GoogleLogin
-              onSuccess={handleLoginSuccess}
-              onError={() => console.log("Google Login Failed")}
-            />
-          )}
-        </div>
-
+        {/* ✅ Main sections */}
         <Hero />
         <Steps />
         <Testimonials />

@@ -1,4 +1,3 @@
-// server/routes/auth.js
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
@@ -39,10 +38,14 @@ router.post("/google", async (req, res) => {
         googleId: payload.sub,
         email: payload.email,
         name: payload.name,
-        picture: payload.picture,
+        picture: payload.picture || "", // ✅ Ensure picture field is always included
         formData: {}, // To store resume progress later
       };
       users.push(user);
+    } else {
+      // ✅ Always update picture and name in case they change
+      user.picture = payload.picture || user.picture || "";
+      user.name = payload.name || user.name;
     }
 
     // Create JWT for session
@@ -52,7 +55,15 @@ router.post("/google", async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.status(200).json({ token: jwtToken, user });
+    res.status(200).json({
+      token: jwtToken,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        picture: user.picture || "",
+      },
+    });
   } catch (err) {
     console.error("Google Auth Error:", err);
     res.status(401).json({ message: "Invalid Google token" });
@@ -80,7 +91,14 @@ router.get("/me", (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ user });
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        picture: user.picture || "",
+      },
+    });
   } catch (err) {
     console.error("JWT Verification Error:", err);
     res.status(401).json({ message: "Invalid or expired token" });

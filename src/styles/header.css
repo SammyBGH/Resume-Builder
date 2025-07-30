@@ -2,15 +2,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0; /* ensures it ends before scrollbar */
-  width: auto; /* lets browser calculate width properly */
+  right: 0;
+  width: auto;
   height: 70px;
   background: #f8fafc;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   z-index: 1000;
 }
-
-
 
 .header-container {
   max-width: 1100px;
@@ -57,9 +55,115 @@
   background: #1e40af;
 }
 
+/* ✅ User Menu */
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.user-info:hover {
+  background-color: #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #3b82f6;
+  object-fit: cover;
+  background-color: #e5e7eb;
+}
+
+.user-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.user-firstname {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  color: #374151;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* ✅ Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  min-width: 180px;
+  z-index: 20;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 0.92rem;
+  color: #1f2937;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdown-item.logout {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.dropdown-item.logout:hover {
+  background-color: #fee2e2;
+}
+
 /* ✅ Responsive */
 @media (max-width: 768px) {
   .header-nav {
-    display: none; /* Hide menu for mobile (optional: add burger menu later) */
+    display: none;
   }
 }
