@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <GoogleOAuthProvider clientId="587047571345-b2rp0m1rapdg7kji49ga7mbc4muh1eb0.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div className="app-container">
         <Header />
 
