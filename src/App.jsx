@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
-import Form from './components/Form';
-import ResumePreview from './components/ResumePreview';
+import Header from './components/Header';
+import React from 'react';
+import Hero from './components/Hero';
+import Steps from './components/Steps';
+import Testimonials from './components/Testimonials';
+import Builder from './components/Builder';
 import './styles/App.css';
+import Footer from './components/Footer';
 
 function App() {
-  const [resumeData, setResumeData] = useState(null);
-
   return (
     <div className="app-container">
-      <h1>Student Resume Builder</h1>
-      <Form onSubmit={setResumeData} />
-      <ResumePreview data={resumeData} />
+      <Header />  {/* ✅ New header */}
+      {/* ✅ Hero Section */}
+      <Hero />
+
+      {/* ✅ Steps Section */}
+      <Steps />
+
+      {/* ✅ Testimonials Section */}
+      <Testimonials />
+
+      {/* ✅ Builder Section */}
+      <Builder />
+
+     <Footer /> {/* ✅ Add Footer here */}
     </div>
   );
 }

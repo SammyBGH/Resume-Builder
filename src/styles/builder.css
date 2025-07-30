@@ -1,0 +1,46 @@
+.builder-section {
+  margin-top: 4rem; /* Adds space from previous section */
+  padding: 3rem 2rem;
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.builder-section h2 {
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.builder-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f1f5f9; /* Light, soft gray-blue tone */
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04); /* Softer shadow */
+  transition: background 0.3s ease;
+}
+
+.builder-container:hover {
+  background: #eef3f8; /* Gentle hover effect */
+}
+
+.builder-container form {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.builder-container .resume-preview {
+  flex: 1 1 300px;
+  min-width: 280px;
+}

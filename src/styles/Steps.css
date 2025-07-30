@@ -1,0 +1,45 @@
+.steps-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f8fafc; /* Softer off-white */
+  width: 100%;
+}
+
+.steps-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1e3a8a; /* Slightly softer dark blue */
+}
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.step-card {
+  flex: 1 1 250px;
+  background: #fdfefe; /* Slightly toned white */
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); /* Softer, lighter shadow */
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+  background: #f3f7ff; /* Gentle hover effect */
+}
+
+.step-card span {
+  font-size: 2rem;
+}
+
+.step-card h3 {
+  margin: 0.8rem 0;
+  color: #2563eb;
+}
