@@ -19,7 +19,8 @@ function App() {
     if (token) {
       axios.get("http://localhost:5000/auth/me", {
         headers: { Authorization: `Bearer ${token}` }
-      }).then(res => setUser(res.data.user))
+      })
+        .then(res => setUser(res.data.user))
         .catch(() => localStorage.removeItem("authToken"));
     }
   }, []);
