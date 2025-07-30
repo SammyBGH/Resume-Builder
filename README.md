@@ -84,7 +84,7 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 1. Open the app in your browser (usually at `http://localhost:5173`).
 2. Fill out the interactive form step by step.
 3. View your generated resume in real-time.
-4. Download or print your resume (feature coming soon).
+4. Download or print your resume.
 
 ---
 
