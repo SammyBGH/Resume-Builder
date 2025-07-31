@@ -215,8 +215,8 @@
   color: #777;
 }
 
-/* Download Button */
-.download-btn {
+/* ✅ Payment Button */
+.payment-btn {
   margin-top: 1.5rem;
   padding: 0.85rem 1.4rem;
   font-size: 1rem;
@@ -233,8 +233,31 @@
   box-shadow: 0 4px 10px rgba(0, 119, 255, 0.3);
 }
 
-.download-btn:hover {
+.payment-btn:hover {
   background: linear-gradient(135deg, #005fcc, #004bb5);
+  transform: translateY(-2px);
+}
+
+/* ✅ Download Button */
+.download-btn {
+  margin-top: 1.5rem;
+  padding: 0.85rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #28a745, #218838);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
   transform: translateY(-2px);
 }
 

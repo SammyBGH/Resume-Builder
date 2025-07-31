@@ -19,7 +19,9 @@ import {
 function ResumePreview({ data }) {
   const resumeRef = useRef();
   const [template, setTemplate] = useState("modern");
+  const [paymentVerified, setPaymentVerified] = useState(false);
 
+  // ✅ Handle PDF download
   const downloadPDF = () => {
     const element = resumeRef.current;
 
@@ -35,6 +37,25 @@ function ResumePreview({ data }) {
     html2pdf().from(element).set(opt).save().then(() => {
       element.classList.remove("pdf-export");
     });
+  };
+
+  // ✅ Handle Paystack Payment
+  const handlePayment = () => {
+    const handler = window.PaystackPop.setup({
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+      email: data.email || "user@example.com",
+      amount: 300, // 3 GHS in pesewas
+      currency: "GHS",
+      ref: "RESUME-" + Date.now(),
+      onClose: () => {
+        alert("Payment popup closed.");
+      },
+      callback: (response) => {
+        alert("✅ Payment successful! Ref: " + response.reference);
+        setPaymentVerified(true);
+      },
+    });
+    handler.openIframe();
   };
 
   if (!data) return null;
@@ -158,10 +179,16 @@ function ResumePreview({ data }) {
         )}
       </div>
 
-      {/* Download Button */}
-      <button className="download-btn" onClick={downloadPDF}>
-        <FaDownload /> Download PDF
-      </button>
+      {/* Payment or Download Button */}
+      {!paymentVerified ? (
+        <button className="payment-btn" onClick={handlePayment}>
+          💳 Pay GHS 3 to Unlock Download
+        </button>
+      ) : (
+        <button className="download-btn" onClick={downloadPDF}>
+          <FaDownload /> Download PDF
+        </button>
+      )}
     </div>
   );
 }
