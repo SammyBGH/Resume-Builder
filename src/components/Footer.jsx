@@ -18,8 +18,8 @@ function Footer() {
 
         <div className="footer-socials">
           <a href="#">🌐</a>
-          <a href="#">🐦</a>
-          <a href="#">📘</a>
+          <a href="#">𝕏</a>
+          <a href="#">ⓕ</a>
         </div>
       </div>
       <div className="footer-bottom">
