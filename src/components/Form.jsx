@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import universities from "../data/universities";
 import "../styles/Form.css";
@@ -87,11 +87,12 @@ const Form = ({ onSubmit }) => {
   const [error, setError] = useState(null);
   const [validationError, setValidationError] = useState("");
 
-  let debounceTimer;
+  // ✅ FIX: Persistent debounce timer
+  const debounceTimer = useRef(null);
   const debounce = (callback, delay = 200) => {
     return (...args) => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
+      clearTimeout(debounceTimer.current);
+      debounceTimer.current = setTimeout(() => {
         callback(...args);
       }, delay);
     };
