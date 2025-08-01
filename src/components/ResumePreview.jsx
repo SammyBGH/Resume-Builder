@@ -218,7 +218,7 @@ function ResumePreview({ data }) {
       {/* Payment or Download Button */}
       {!paymentVerified ? (
         <button className="payment-btn" onClick={handlePayment}>
-          💳 Pay GHS 3 to Unlock Download
+          💳 Pay GHS 10 to Unlock Download
         </button>
       ) : (
         <button className="download-btn" onClick={downloadPDF}>
