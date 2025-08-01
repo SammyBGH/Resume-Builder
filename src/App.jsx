@@ -60,6 +60,8 @@ function App() {
       fetchUser(res.data.token);
     } catch (err) {
       console.error("❌ [DEBUG] Login failed:", err.response?.data || err.message);
+      console.log("🔹 API Base URL:", import.meta.env.VITE_API_BASE_URL);
+
     }
   };
 
