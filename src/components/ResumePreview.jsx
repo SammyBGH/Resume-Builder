@@ -23,6 +23,9 @@ function ResumePreview({ data }) {
   const [paymentVerified, setPaymentVerified] = useState(false);
   const [resumeId, setResumeId] = useState(null);
 
+  // ✅ API Base URL (works for local + production)
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://resumio-api.onrender.com";
+
   // ✅ Save resume before payment
   const saveResume = async () => {
     const token = localStorage.getItem("authToken");
@@ -33,7 +36,7 @@ function ResumePreview({ data }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/resumes",
+        `${API_BASE_URL}/api/resumes`,
         data,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -69,7 +72,7 @@ function ResumePreview({ data }) {
 
         if (token) {
           axios.patch(
-            `http://localhost:5000/api/resumes/${id}/pay`,
+            `${API_BASE_URL}/api/resumes/${id}/pay`,
             {},
             { headers: { Authorization: `Bearer ${token}` } }
           ).then(() => {

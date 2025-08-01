@@ -33,19 +33,29 @@ app.use(session({
   secret: process.env.JWT_SECRET || 'secret123',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // ✅ Change to true in production with HTTPS
+  cookie: { secure: process.env.NODE_ENV === 'production' } // ✅ Uses secure cookies in production
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Routes
+// ✅ API Routes
 app.use('/api/summarize', summarizeRoute);
 app.use('/auth', authRoute);
-app.use('/api/resumes', resumeRoutes); // ✅ Added Resume API route
+app.use('/api/resumes', resumeRoutes);
 
-// ✅ Default route
+// ✅ Serve Frontend in Production (for Render Deployment)
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '..', 'frontend', 'dist');
+  app.use(express.static(frontendPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(frontendPath, 'index.html'));
+  });
+}
+
+// ✅ Default API health check
 app.get('/', (req, res) => {
-  res.send('Server is running...');
+  res.send('✅ Backend server is running...');
 });
 
 // ✅ Error handling

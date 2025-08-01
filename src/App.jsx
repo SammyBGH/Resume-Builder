@@ -18,7 +18,7 @@ function App() {
   // ✅ Load user info if token exists
   const fetchUser = async (token) => {
     try {
-      const res = await axios.get("http://localhost:5000/auth/me", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.user);
@@ -36,7 +36,7 @@ function App() {
   // ✅ Handle Google login
   const handleLoginSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:5000/auth/google", {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
         token: credentialResponse.credential,
       });
       localStorage.setItem("authToken", res.data.token);
