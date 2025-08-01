@@ -1,12 +1,10 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
+const User = require("../models/User"); // ✅ New MongoDB model
 const router = express.Router();
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-// 🗄️ Temporary In-Memory DB (replace with MongoDB)
-const users = [];
 
 /**
  * ✅ Google Authentication
@@ -28,29 +26,28 @@ router.post("/google", async (req, res) => {
 
     const payload = ticket.getPayload();
 
-    // Check if user already exists
-    let user = users.find((u) => u.googleId === payload.sub);
+    // ✅ Check if user exists in DB
+    let user = await User.findOne({ googleId: payload.sub });
 
     if (!user) {
-      // New user registration
-      user = {
-        id: users.length + 1,
+      // ✅ New user registration
+      user = new User({
         googleId: payload.sub,
         email: payload.email,
         name: payload.name,
-        picture: payload.picture || "", // ✅ Ensure picture field is always included
-        formData: {}, // To store resume progress later
-      };
-      users.push(user);
+        picture: payload.picture || "",
+      });
+      await user.save();
     } else {
-      // ✅ Always update picture and name in case they change
-      user.picture = payload.picture || user.picture || "";
-      user.name = payload.name || user.name;
+      // ✅ Update profile info if changed
+      user.name = payload.name;
+      user.picture = payload.picture || user.picture;
+      await user.save();
     }
 
-    // Create JWT for session
+    // ✅ Create JWT for session
     const jwtToken = jwt.sign(
-      { userId: user.id },
+      { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -58,7 +55,7 @@ router.post("/google", async (req, res) => {
     res.status(200).json({
       token: jwtToken,
       user: {
-        id: user.id,
+        id: user._id,
         name: user.name,
         email: user.email,
         picture: user.picture || "",
@@ -74,7 +71,7 @@ router.post("/google", async (req, res) => {
  * ✅ Get logged-in user info
  * Endpoint: GET /auth/me
  */
-router.get("/me", (req, res) => {
+router.get("/me", async (req, res) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -85,7 +82,7 @@ router.get("/me", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = users.find((u) => u.id === decoded.userId);
+    const user = await User.findById(decoded.userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -93,7 +90,7 @@ router.get("/me", (req, res) => {
 
     res.json({
       user: {
-        id: user.id,
+        id: user._id,
         name: user.name,
         email: user.email,
         picture: user.picture || "",

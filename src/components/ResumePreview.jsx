@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
+import axios from 'axios';
 import '../styles/ResumePreview.css';
-import { 
-  FaPhone, 
-  FaEnvelope, 
-  FaMapMarkerAlt, 
-  FaGlobe, 
-  FaUserAlt, 
-  FaBriefcase, 
-  FaTools, 
-  FaGraduationCap, 
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaGlobe,
+  FaUserAlt,
+  FaBriefcase,
+  FaTools,
+  FaGraduationCap,
   FaLanguage,
   FaDownload,
   FaCertificate,
@@ -20,6 +21,72 @@ function ResumePreview({ data }) {
   const resumeRef = useRef();
   const [template, setTemplate] = useState("modern");
   const [paymentVerified, setPaymentVerified] = useState(false);
+  const [resumeId, setResumeId] = useState(null);
+
+  // ✅ Save resume before payment
+  const saveResume = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Please log in first.");
+      return null;
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/resumes",
+        data,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setResumeId(res.data.resume._id);
+      return res.data.resume._id;
+    } catch (err) {
+      console.error("Error saving resume:", err);
+      return null;
+    }
+  };
+
+  // ✅ Handle Paystack Payment
+  const handlePayment = async () => {
+    if (!window.PaystackPop) {
+      alert("Payment service not loaded. Please refresh and try again.");
+      return;
+    }
+
+    const id = resumeId || await saveResume();
+    if (!id) return;
+
+    const handler = window.PaystackPop.setup({
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+      email: data.email || "user@example.com",
+      amount: 300, // ✅ 3 GHS in pesewas
+      currency: "GHS",
+      ref: "RESUME-" + Date.now(),
+      onClose: () => {
+        alert("Payment popup closed.");
+      },
+      callback: (response) => {
+        const token = localStorage.getItem("authToken");
+
+        if (token) {
+          axios.patch(
+            `http://localhost:5000/api/resumes/${id}/pay`,
+            {},
+            { headers: { Authorization: `Bearer ${token}` } }
+          ).then(() => {
+            alert("✅ Payment successful! Ref: " + response.reference);
+            setPaymentVerified(true);
+          }).catch(() => {
+            alert("Payment successful but failed to update status. Contact support.");
+          });
+        } else {
+          alert("✅ Payment successful! Ref: " + response.reference);
+          setPaymentVerified(true);
+        }
+      },
+    });
+
+    handler.openIframe();
+  };
 
   // ✅ Handle PDF download
   const downloadPDF = () => {
@@ -39,49 +106,15 @@ function ResumePreview({ data }) {
     });
   };
 
-  // ✅ Handle Paystack Payment
-  const handlePayment = () => {
-    const handler = window.PaystackPop.setup({
-      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-      email: data.email || "user@example.com",
-      amount: 300, // 3 GHS in pesewas
-      currency: "GHS",
-      ref: "RESUME-" + Date.now(),
-      onClose: () => {
-        alert("Payment popup closed.");
-      },
-      callback: (response) => {
-        alert("✅ Payment successful! Ref: " + response.reference);
-        setPaymentVerified(true);
-      },
-    });
-    handler.openIframe();
-  };
-
   if (!data) return null;
 
   return (
     <div className="resume-preview-wrapper">
       {/* Template Selector */}
       <div className="template-selector">
-        <button 
-          className={template === "modern" ? "active" : ""} 
-          onClick={() => setTemplate("modern")}
-        >
-          Modern
-        </button>
-        <button 
-          className={template === "classic" ? "active" : ""} 
-          onClick={() => setTemplate("classic")}
-        >
-          Classic
-        </button>
-        <button 
-          className={template === "minimal" ? "active" : ""} 
-          onClick={() => setTemplate("minimal")}
-        >
-          Minimal
-        </button>
+        <button className={template === "modern" ? "active" : ""} onClick={() => setTemplate("modern")}>Modern</button>
+        <button className={template === "classic" ? "active" : ""} onClick={() => setTemplate("classic")}>Classic</button>
+        <button className={template === "minimal" ? "active" : ""} onClick={() => setTemplate("minimal")}>Minimal</button>
       </div>
 
       {/* Resume Preview */}
