@@ -17,39 +17,55 @@ function App() {
 
   // ✅ Load user info if token exists
   const fetchUser = async (token) => {
+    console.log("🔹 [DEBUG] Fetching user with token:", token);
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("✅ [DEBUG] User fetched successfully:", res.data);
       setUser(res.data.user);
     } catch (err) {
-      console.error("Auto-login failed:", err);
+      console.error("❌ [DEBUG] Auto-login failed:", err.response?.data || err.message);
       localStorage.removeItem("authToken");
     }
   };
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    if (token) fetchUser(token);
+    if (token) {
+      console.log("🔹 [DEBUG] Found saved token, attempting auto-login...");
+      fetchUser(token);
+    }
   }, []);
 
   // ✅ Handle Google login
   const handleLoginSuccess = async (credentialResponse) => {
+    console.log("🔹 [DEBUG] Google Login Response:", credentialResponse);
+
+    if (!credentialResponse || !credentialResponse.credential) {
+      console.error("❌ [DEBUG] No credential returned from Google.");
+      return;
+    }
+
     try {
+      console.log("🔹 [DEBUG] Sending token to backend...");
       const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
         token: credentialResponse.credential,
       });
+
+      console.log("✅ [DEBUG] Backend login response:", res.data);
       localStorage.setItem("authToken", res.data.token);
 
       // Immediately fetch full user data (with image)
       fetchUser(res.data.token);
     } catch (err) {
-      console.error("Login failed:", err);
+      console.error("❌ [DEBUG] Login failed:", err.response?.data || err.message);
     }
   };
 
   // ✅ Handle logout
   const handleLogout = () => {
+    console.log("🔹 [DEBUG] Logging out...");
     localStorage.removeItem("authToken");
     setUser(null);
   };
