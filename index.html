@@ -6,36 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#2563eb" />
 
-    <title>Resumio – Modern Resume Builder</title>
+    <title>Resumio – Build Your Professional Resume Online</title>
     <meta
       name="description"
-      content="Resumio is a modern and user-friendly resume builder that helps you create professional resumes in minutes."
+      content="Create a stunning, ATS-friendly resume in minutes with Resumio. Choose from modern templates and download instantly. Free to start, pay only when you download."
     />
     <meta
       name="keywords"
-      content="resume builder, online CV maker, professional resumes, job applications, resume templates, resumio"
+      content="resume builder, CV creator, online resume maker, job applications, professional resumes, resume templates, free resume builder"
     />
     <meta name="author" content="Resumio Team" />
 
-    <!-- ✅ Social Media / Open Graph -->
-    <meta property="og:title" content="Resumio – Modern Resume Builder" />
+    <!-- ✅ Open Graph (Social Preview) -->
+    <meta property="og:title" content="Resumio – Build Your Professional Resume Online" />
     <meta
       property="og:description"
-      content="Create a stunning, professional resume online with Resumio. Quick, easy, and ATS-friendly templates."
+      content="Resumio helps you craft a beautiful, professional resume in minutes. Choose a template, fill in your details, and download instantly."
     />
-    <meta property="og:image" content="/favicon.png" />
+    <meta property="og:image" content="/preview-image.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://resumio.vercel.app" />
 
+    <!-- ✅ Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Resumio – Modern Resume Builder" />
+    <meta name="twitter:title" content="Resumio – Build Your Professional Resume Online" />
     <meta
       name="twitter:description"
-      content="Create professional resumes in minutes with Resumio's easy-to-use builder."
+      content="Create professional resumes quickly with Resumio's modern, easy-to-use builder. Choose templates, customize, and download instantly."
     />
-    <meta name="twitter:image" content="/favicon.png" />
+    <meta name="twitter:image" content="/preview-image.png" />
 
-    <!-- ✅ Icons -->
+    <!-- ✅ Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/favicon.png" />
@@ -51,13 +52,36 @@
     <!-- ✅ Paystack Script -->
     <script src="https://js.paystack.co/v1/inline.js" async></script>
 
-    <!-- ✅ Prevent flash of unstyled text -->
+    <!-- ✅ Structured Data for SEO (Google Rich Results) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Resumio",
+        "url": "https://resumio.vercel.app",
+        "description": "Build professional resumes online with Resumio's modern, ATS-friendly templates. Free to start, pay only to download.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "3.00",
+          "priceCurrency": "GHS"
+        }
+      }
+    </script>
+
+    <!-- ✅ Base Styles -->
     <style>
       body {
         font-family: 'Inter', sans-serif;
         background-color: #f9fafb;
         margin: 0;
         padding: 0;
+        color: #1f2937;
+      }
+
+      #root {
+        min-height: 100vh;
       }
     </style>
   </head>
