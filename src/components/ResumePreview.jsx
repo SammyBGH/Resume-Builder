@@ -61,7 +61,7 @@ function ResumePreview({ data }) {
     const handler = window.PaystackPop.setup({
       key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
       email: data.email || "user@example.com",
-      amount: 300, // ✅ 3 GHS in pesewas
+      amount: 1000, // ✅ 10 GHS in pesewas
       currency: "GHS",
       ref: "RESUME-" + Date.now(),
       onClose: () => {
