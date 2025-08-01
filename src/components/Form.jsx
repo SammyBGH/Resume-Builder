@@ -1,52 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import universities from '../data/universities';
-import '../styles/Form.css';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import universities from "../data/universities";
+import "../styles/Form.css";
 
 const questions = [
-  { name: 'fullName', label: 'Full Name', type: 'text' },
-  { name: 'email', label: 'Email', type: 'email' },
-  { name: 'phone', label: 'Phone Number', type: 'tel' },
-  { name: 'skills', label: 'List your skills', type: 'text' },
-  { name: 'languages', label: 'Languages', type: 'text' },
-  { name: 'proficiency', label: 'Set Proficiency Levels', type: 'dropdown' },
-  { name: 'program', label: 'Program (e.g., BSc Computer Science)', type: 'text' },
-  { name: 'school', label: 'School / University Name', type: 'text' },
-  { name: 'experience', label: 'Work Experience', type: 'textarea' },
-  { name: 'projects', label: 'Projects', type: 'textarea' },
-  { name: 'certifications', label: 'Certifications', type: 'textarea' },
+  { name: "fullName", label: "Full Name", type: "text" },
+  { name: "email", label: "Email", type: "email" },
+  { name: "phone", label: "Phone Number", type: "tel" },
+  { name: "skills", label: "List your skills", type: "text" },
+  { name: "languages", label: "Languages", type: "text" },
+  { name: "proficiency", label: "Set Proficiency Levels", type: "dropdown" },
+  {
+    name: "program",
+    label: "Program (e.g., BSc Computer Science)",
+    type: "text",
+  },
+  { name: "school", label: "School / University Name", type: "text" },
+  { name: "experience", label: "Work Experience", type: "textarea" },
+  { name: "projects", label: "Projects", type: "textarea" },
+  { name: "certifications", label: "Certifications", type: "textarea" },
 ];
 
-const proficiencyLevels = ['Native', 'Fluent', 'Intermediate', 'Beginner'];
+const proficiencyLevels = ["Native", "Fluent", "Intermediate", "Beginner"];
 
 const skillsList = [
-  'JavaScript', 'React', 'Node.js', 'Python', 'CSS', 'HTML', 'MongoDB', 'SQL',
-  'Git', 'Docker', 'Figma', 'C++', 'Java', 'TypeScript', 'Express', 'Django',
+  "JavaScript",
+  "React",
+  "Node.js",
+  "Python",
+  "CSS",
+  "HTML",
+  "MongoDB",
+  "SQL",
+  "Git",
+  "Docker",
+  "Figma",
+  "C++",
+  "Java",
+  "TypeScript",
+  "Express",
+  "Django",
 ];
 
 const languageSuggestions = [
-  'English', 'Spanish', 'French', 'German', 'Chinese', 'Arabic', 'Russian', 'Portuguese'
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Chinese",
+  "Arabic",
+  "Russian",
+  "Portuguese",
 ];
 
 const Form = ({ onSubmit }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
+    fullName: "",
+    email: "",
+    phone: "",
     skills: [],
     languages: [],
-    program: '',
-    school: '',
-    experience: '',
-    projects: '',
-    certifications: '',
+    program: "",
+    school: "",
+    experience: "",
+    projects: "",
+    certifications: "",
   });
 
   // Inputs
-  const [skillInput, setSkillInput] = useState('');
-  const [languageInput, setLanguageInput] = useState('');
-  const [schoolInput, setSchoolInput] = useState('');
+  const [skillInput, setSkillInput] = useState("");
+  const [languageInput, setLanguageInput] = useState("");
+  const [schoolInput, setSchoolInput] = useState("");
 
   // Filtered lists
   const [filteredSkills, setFilteredSkills] = useState([]);
@@ -60,7 +85,7 @@ const Form = ({ onSubmit }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [validationError, setValidationError] = useState('');
+  const [validationError, setValidationError] = useState("");
 
   let debounceTimer;
   const debounce = (callback, delay = 200) => {
@@ -74,13 +99,17 @@ const Form = ({ onSubmit }) => {
 
   // ✅ Real-time validation
   const validateInput = (name, value) => {
-    if (name === 'email') {
+    if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setValidationError(emailRegex.test(value) ? '' : 'Enter a valid email address');
+      setValidationError(
+        emailRegex.test(value) ? "" : "Enter a valid email address"
+      );
     }
-    if (name === 'phone') {
+    if (name === "phone") {
       const phoneRegex = /^[0-9]{7,15}$/;
-      setValidationError(phoneRegex.test(value) ? '' : 'Enter a valid phone number');
+      setValidationError(
+        phoneRegex.test(value) ? "" : "Enter a valid phone number"
+      );
     }
   };
 
@@ -99,12 +128,14 @@ const Form = ({ onSubmit }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('http://localhost:5000/api/summarize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ skills: formData.skills.join(', ') }),
+        const API_BASE =
+          import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+        const response = await fetch(`${API_BASE}/api/summarize`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skills: formData.skills.join(", ") }),
         });
-        if (!response.ok) throw new Error('Failed to generate summary');
+        if (!response.ok) throw new Error("Failed to generate summary");
         const data = await response.json();
         const summary = data.summary;
         onSubmit({ ...formData, summary });
@@ -135,32 +166,39 @@ const Form = ({ onSubmit }) => {
     if (!formData.skills.includes(skill)) {
       setFormData({ ...formData, skills: [...formData.skills, skill] });
     }
-    setSkillInput('');
+    setSkillInput("");
     setFilteredSkills([]);
     setHighlightedSkill(-1);
   };
 
   const handleSkillKeyDown = (e) => {
-    if (e.key === 'Backspace' && skillInput === '' && formData.skills.length > 0) {
+    if (
+      e.key === "Backspace" &&
+      skillInput === "" &&
+      formData.skills.length > 0
+    ) {
       const updated = [...formData.skills];
       updated.pop();
       setFormData({ ...formData, skills: updated });
     }
     if (filteredSkills.length > 0) {
-      if (e.key === 'ArrowDown') {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
         setHighlightedSkill((prev) => (prev + 1) % filteredSkills.length);
-      } else if (e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setHighlightedSkill((prev) =>
           prev <= 0 ? filteredSkills.length - 1 : prev - 1
         );
-      } else if (e.key === 'Enter') {
+      } else if (e.key === "Enter") {
         e.preventDefault();
-        const selected = highlightedSkill >= 0 ? filteredSkills[highlightedSkill] : skillInput.trim();
+        const selected =
+          highlightedSkill >= 0
+            ? filteredSkills[highlightedSkill]
+            : skillInput.trim();
         if (selected) addSkill(selected);
       }
-    } else if (e.key === 'Enter' && skillInput.trim() !== '') {
+    } else if (e.key === "Enter" && skillInput.trim() !== "") {
       e.preventDefault();
       addSkill(skillInput.trim());
     }
@@ -181,35 +219,45 @@ const Form = ({ onSubmit }) => {
     if (!formData.languages.some((l) => l.name === language)) {
       setFormData({
         ...formData,
-        languages: [...formData.languages, { name: language, proficiency: 'Fluent' }],
+        languages: [
+          ...formData.languages,
+          { name: language, proficiency: "Fluent" },
+        ],
       });
     }
-    setLanguageInput('');
+    setLanguageInput("");
     setFilteredLanguages([]);
     setHighlightedLang(-1);
   };
 
   const handleLanguageKeyDown = (e) => {
-    if (e.key === 'Backspace' && languageInput === '' && formData.languages.length > 0) {
+    if (
+      e.key === "Backspace" &&
+      languageInput === "" &&
+      formData.languages.length > 0
+    ) {
       const updated = [...formData.languages];
       updated.pop();
       setFormData({ ...formData, languages: updated });
     }
     if (filteredLanguages.length > 0) {
-      if (e.key === 'ArrowDown') {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
         setHighlightedLang((prev) => (prev + 1) % filteredLanguages.length);
-      } else if (e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setHighlightedLang((prev) =>
           prev <= 0 ? filteredLanguages.length - 1 : prev - 1
         );
-      } else if (e.key === 'Enter') {
+      } else if (e.key === "Enter") {
         e.preventDefault();
-        const selected = highlightedLang >= 0 ? filteredLanguages[highlightedLang] : languageInput.trim();
+        const selected =
+          highlightedLang >= 0
+            ? filteredLanguages[highlightedLang]
+            : languageInput.trim();
         if (selected) addLanguage(selected);
       }
-    } else if (e.key === 'Enter' && languageInput.trim() !== '') {
+    } else if (e.key === "Enter" && languageInput.trim() !== "") {
       e.preventDefault();
       addLanguage(languageInput.trim());
     }
@@ -235,22 +283,23 @@ const Form = ({ onSubmit }) => {
 
   const handleSchoolKeyDown = (e) => {
     if (filteredSchools.length > 0) {
-      if (e.key === 'ArrowDown') {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
         setHighlightedSchool((prev) => (prev + 1) % filteredSchools.length);
-      } else if (e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setHighlightedSchool((prev) =>
           prev <= 0 ? filteredSchools.length - 1 : prev - 1
         );
-      } else if (e.key === 'Enter') {
+      } else if (e.key === "Enter") {
         e.preventDefault();
-        const selected = highlightedSchool >= 0
-          ? filteredSchools[highlightedSchool].name
-          : schoolInput.trim();
+        const selected =
+          highlightedSchool >= 0
+            ? filteredSchools[highlightedSchool].name
+            : schoolInput.trim();
         if (selected) handleSchoolSelect(selected);
       }
-    } else if (e.key === 'Enter' && schoolInput.trim() !== '') {
+    } else if (e.key === "Enter" && schoolInput.trim() !== "") {
       e.preventDefault();
       handleSchoolSelect(schoolInput.trim());
     }
@@ -265,7 +314,9 @@ const Form = ({ onSubmit }) => {
         {questions.map((_, index) => (
           <div
             key={index}
-            className={`dot ${index === currentQuestion ? 'active' : ''} ${index < currentQuestion ? 'completed' : ''}`}
+            className={`dot ${index === currentQuestion ? "active" : ""} ${
+              index < currentQuestion ? "completed" : ""
+            }`}
           ></div>
         ))}
       </div>
@@ -286,17 +337,26 @@ const Form = ({ onSubmit }) => {
           <label htmlFor={current.name}>{current.label}</label>
 
           {/* ================== SKILLS ================== */}
-          {current.name === 'skills' ? (
+          {current.name === "skills" ? (
             <div className="skills-input">
-              <div className="skills-wrapper" onClick={() => document.getElementById('skill-input').focus()}>
+              <div
+                className="skills-wrapper"
+                onClick={() => document.getElementById("skill-input").focus()}
+              >
                 {formData.skills.map((skill, index) => (
                   <div key={index} className="skill-tag">
                     {skill}
-                    <button type="button" className="remove-skill" onClick={() => {
-                      const updated = [...formData.skills];
-                      updated.splice(index, 1);
-                      setFormData({ ...formData, skills: updated });
-                    }}>×</button>
+                    <button
+                      type="button"
+                      className="remove-skill"
+                      onClick={() => {
+                        const updated = [...formData.skills];
+                        updated.splice(index, 1);
+                        setFormData({ ...formData, skills: updated });
+                      }}
+                    >
+                      ×
+                    </button>
                   </div>
                 ))}
                 <input
@@ -304,7 +364,10 @@ const Form = ({ onSubmit }) => {
                   type="text"
                   className="skill-type-input"
                   value={skillInput}
-                  onChange={(e) => { setSkillInput(e.target.value); handleSkillInputChange(e.target.value); }}
+                  onChange={(e) => {
+                    setSkillInput(e.target.value);
+                    handleSkillInputChange(e.target.value);
+                  }}
                   onKeyDown={handleSkillKeyDown}
                   placeholder="Type a skill..."
                 />
@@ -314,7 +377,9 @@ const Form = ({ onSubmit }) => {
                   {filteredSkills.map((skill, index) => (
                     <li
                       key={index}
-                      className={highlightedSkill === index ? 'highlighted' : ''}
+                      className={
+                        highlightedSkill === index ? "highlighted" : ""
+                      }
                       onMouseDown={() => addSkill(skill)}
                     >
                       {skill}
@@ -323,17 +388,26 @@ const Form = ({ onSubmit }) => {
                 </ul>
               )}
             </div>
-          ) : current.name === 'languages' ? (
+          ) : current.name === "languages" ? (
             <div className="skills-input">
-              <div className="skills-wrapper" onClick={() => document.getElementById('lang-input').focus()}>
+              <div
+                className="skills-wrapper"
+                onClick={() => document.getElementById("lang-input").focus()}
+              >
                 {formData.languages.map((lang, index) => (
                   <div key={index} className="skill-tag">
                     {lang.name}
-                    <button type="button" className="remove-skill" onClick={() => {
-                      const updated = [...formData.languages];
-                      updated.splice(index, 1);
-                      setFormData({ ...formData, languages: updated });
-                    }}>×</button>
+                    <button
+                      type="button"
+                      className="remove-skill"
+                      onClick={() => {
+                        const updated = [...formData.languages];
+                        updated.splice(index, 1);
+                        setFormData({ ...formData, languages: updated });
+                      }}
+                    >
+                      ×
+                    </button>
                   </div>
                 ))}
                 <input
@@ -341,7 +415,10 @@ const Form = ({ onSubmit }) => {
                   type="text"
                   className="skill-type-input"
                   value={languageInput}
-                  onChange={(e) => { setLanguageInput(e.target.value); handleLanguageInputChange(e.target.value); }}
+                  onChange={(e) => {
+                    setLanguageInput(e.target.value);
+                    handleLanguageInputChange(e.target.value);
+                  }}
                   onKeyDown={handleLanguageKeyDown}
                   placeholder="Type a language..."
                 />
@@ -351,7 +428,7 @@ const Form = ({ onSubmit }) => {
                   {filteredLanguages.map((lang, index) => (
                     <li
                       key={index}
-                      className={highlightedLang === index ? 'highlighted' : ''}
+                      className={highlightedLang === index ? "highlighted" : ""}
                       onMouseDown={() => addLanguage(lang)}
                     >
                       {lang}
@@ -360,7 +437,7 @@ const Form = ({ onSubmit }) => {
                 </ul>
               )}
             </div>
-          ) : current.name === 'proficiency' ? (
+          ) : current.name === "proficiency" ? (
             <div>
               {formData.languages.length > 0 ? (
                 formData.languages.map((lang, index) => (
@@ -375,7 +452,9 @@ const Form = ({ onSubmit }) => {
                       }}
                     >
                       {proficiencyLevels.map((level, i) => (
-                        <option key={i} value={level}>{level}</option>
+                        <option key={i} value={level}>
+                          {level}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -384,14 +463,17 @@ const Form = ({ onSubmit }) => {
                 <p>No languages selected yet.</p>
               )}
             </div>
-          ) : current.name === 'school' ? (
+          ) : current.name === "school" ? (
             <div className="skills-input">
               <input
                 type="text"
                 name="school"
                 id="school"
                 value={schoolInput}
-                onChange={(e) => { setSchoolInput(e.target.value); handleSchoolInputChange(e.target.value); }}
+                onChange={(e) => {
+                  setSchoolInput(e.target.value);
+                  handleSchoolInputChange(e.target.value);
+                }}
                 onKeyDown={handleSchoolKeyDown}
                 placeholder="Type your school/university..."
                 autoComplete="off"
@@ -401,16 +483,18 @@ const Form = ({ onSubmit }) => {
                   {filteredSchools.map((u, index) => (
                     <li
                       key={index}
-                      className={highlightedSchool === index ? 'highlighted' : ''}
+                      className={
+                        highlightedSchool === index ? "highlighted" : ""
+                      }
                       onMouseDown={() => handleSchoolSelect(u.name)}
                     >
-                      {u.name} {u.nickname ? `(${u.nickname})` : ''}
+                      {u.name} {u.nickname ? `(${u.nickname})` : ""}
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-          ) : current.type === 'textarea' ? (
+          ) : current.type === "textarea" ? (
             <textarea
               name={current.name}
               id={current.name}
@@ -433,9 +517,17 @@ const Form = ({ onSubmit }) => {
           {loading && <p className="loading">Generating summary...</p>}
 
           <div className="form-navigation">
-            {currentQuestion > 0 && <button className="prev-btn" onClick={handlePrev}>Previous</button>}
-            <button className="next-btn" onClick={handleNext} disabled={loading || validationError}>
-              {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
+            {currentQuestion > 0 && (
+              <button className="prev-btn" onClick={handlePrev}>
+                Previous
+              </button>
+            )}
+            <button
+              className="next-btn"
+              onClick={handleNext}
+              disabled={loading || validationError}
+            >
+              {currentQuestion === questions.length - 1 ? "Submit" : "Next"}
             </button>
           </div>
         </motion.div>
