@@ -43,6 +43,27 @@ function ResumePreview({ data }) {
     }
   }, [data]);
 
+  // ✅ Check payment status on page refresh
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      const savedResumeId = localStorage.getItem("savedResumeId");
+      const idToCheck = resumeId || savedResumeId;
+      if (!idToCheck) return;
+
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/payment-status/${idToCheck}`);
+        if (res.data.success && res.data.paid) {
+          setPaymentVerified(true);
+          setResumeId(idToCheck);
+        }
+      } catch (err) {
+        console.error("Error checking payment status:", err);
+      }
+    };
+
+    checkPaymentStatus();
+  }, [resumeId]);
+
   // ✅ Save resume before payment
   const saveResume = async () => {
     const token = localStorage.getItem("authToken");
@@ -58,6 +79,7 @@ function ResumePreview({ data }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setResumeId(res.data.resume._id);
+      localStorage.setItem("savedResumeId", res.data.resume._id); // ✅ Save to localStorage
       return res.data.resume._id;
     } catch (err) {
       console.error("Error saving resume:", err);
