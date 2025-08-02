@@ -15,6 +15,7 @@ const programs = [
 
   // --- Engineering ---
   "BSc Electrical Engineering",
+  "BSc Electrical and Electronics Engineering",
   "BSc Electronics and Communication Engineering",
   "BSc Mechanical Engineering",
   "BSc Civil Engineering",
