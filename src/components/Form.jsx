@@ -341,49 +341,21 @@ const Form = ({ onSubmit }) => {
     <div className="form-container">
       {/* ✅ Step Progress Dots */}
       <div className="progress-dots">
-        {questions.map((q, index) => (
+        {questions.map((_, index) => (
           <div
             key={index}
             className={`dot ${index === currentQuestion ? "active" : ""} ${
               index < currentQuestion ? "completed" : ""
             }`}
             onClick={() => {
-              if (index <= currentQuestion) {
-                setCurrentQuestion(index);
-                setDotNavError("");
-              } else {
-                // ✅ Validate skipped steps
-                let canNavigate = true;
-                for (let i = currentQuestion; i < index; i++) {
-                  const fieldName = questions[i].name;
-                  const fieldValue = formData[fieldName];
-
-                  if (
-                    (Array.isArray(fieldValue) && fieldValue.length === 0) ||
-                    (typeof fieldValue === "string" && fieldValue.trim() === "")
-                  ) {
-                    canNavigate = false;
-                    setDotNavError(
-                      `⚠️ Please complete "${questions[i].label}" before skipping ahead.`
-                    );
-                    break;
-                  }
-                }
-
-                if (canNavigate) {
-                  setCurrentQuestion(index);
-                  setDotNavError("");
-                }
-              }
+              // ✅ Allow both forward and backward navigation without losing data
+              setCurrentQuestion(index);
             }}
             title={`Go to Step ${index + 1}`}
             style={{ cursor: "pointer" }}
           ></div>
         ))}
       </div>
-
-      {/* ✅ Inline error message under dots */}
-      {dotNavError && <p className="dot-nav-error">{dotNavError}</p>}
 
       <div className="form-progress">
         Step {currentQuestion + 1} of {questions.length}
