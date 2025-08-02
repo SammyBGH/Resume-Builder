@@ -348,15 +348,11 @@ const Form = ({ onSubmit }) => {
               index < currentQuestion ? "completed" : ""
             }`}
             onClick={() => {
-              // Allow clicking back to previous or current steps only
-              if (index <= currentQuestion) {
-                setCurrentQuestion(index);
-              }
+              // ✅ Allow both forward and backward navigation without losing data
+              setCurrentQuestion(index);
             }}
             title={`Go to Step ${index + 1}`}
-            style={{
-              cursor: index <= currentQuestion ? "pointer" : "not-allowed",
-            }}
+            style={{ cursor: "pointer" }}
           ></div>
         ))}
       </div>
