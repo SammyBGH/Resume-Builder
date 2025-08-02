@@ -1,4 +1,4 @@
-check the frontend for me(is this where we shiuld implement that?): import React, { useRef, useState, useEffect } from 'react'; 
+import React, { useRef, useState, useEffect } from 'react'; 
 import html2pdf from 'html2pdf.js';
 import axios from 'axios';
 import '../styles/ResumePreview.css';
