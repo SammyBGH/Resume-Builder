@@ -348,24 +348,23 @@ const Form = ({ onSubmit }) => {
               index < currentQuestion ? "completed" : ""
             }`}
             onClick={() => {
-              // ✅ Allow backward navigation without restriction
               if (index <= currentQuestion) {
                 setCurrentQuestion(index);
+                setDotNavError("");
               } else {
-                // ✅ Validate all required fields before skipping forward
+                // ✅ Validate skipped steps
                 let canNavigate = true;
                 for (let i = currentQuestion; i < index; i++) {
                   const fieldName = questions[i].name;
                   const fieldValue = formData[fieldName];
 
-                  // Basic check for empty fields (text, textarea, skills, languages)
                   if (
                     (Array.isArray(fieldValue) && fieldValue.length === 0) ||
                     (typeof fieldValue === "string" && fieldValue.trim() === "")
                   ) {
                     canNavigate = false;
-                    alert(
-                      `⚠️ Please complete "${questions[i].label}" before moving forward.`
+                    setDotNavError(
+                      `⚠️ Please complete "${questions[i].label}" before skipping ahead.`
                     );
                     break;
                   }
@@ -373,6 +372,7 @@ const Form = ({ onSubmit }) => {
 
                 if (canNavigate) {
                   setCurrentQuestion(index);
+                  setDotNavError("");
                 }
               }
             }}
@@ -381,6 +381,9 @@ const Form = ({ onSubmit }) => {
           ></div>
         ))}
       </div>
+
+      {/* ✅ Inline error message under dots */}
+      {dotNavError && <p className="dot-nav-error">{dotNavError}</p>}
 
       <div className="form-progress">
         Step {currentQuestion + 1} of {questions.length}

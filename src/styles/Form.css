@@ -42,6 +42,20 @@
   background-color: #3b82f6;
 }
 
+.dot-nav-error {
+  text-align: center;
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
 /* Form Question */
 .form-question {
   display: flex;
