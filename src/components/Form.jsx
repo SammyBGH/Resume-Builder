@@ -82,7 +82,12 @@ const Form = ({ onSubmit }) => {
   useEffect(() => {
     const savedData = localStorage.getItem("resumeFormData");
     if (savedData) {
-      setFormData(JSON.parse(savedData));
+      const parsed = JSON.parse(savedData);
+      setFormData(parsed);
+      setProgramInput(parsed.program || "");
+      setSchoolInput(parsed.school || "");
+      setSkillInput("");
+      setLanguageInput("");
     }
   }, []);
 
@@ -90,7 +95,6 @@ const Form = ({ onSubmit }) => {
   useEffect(() => {
     localStorage.setItem("resumeFormData", JSON.stringify(formData));
   }, [formData]);
-
 
   // Auto-hide dot error after 3 seconds
   useEffect(() => {
@@ -366,7 +370,6 @@ const Form = ({ onSubmit }) => {
   return (
     <div className="form-container">
       {/* ✅ Step Progress Dots */}
-      {/* ✅ Step Progress Dots */}
       <div className="progress-dots">
         {questions.map((_, index) => (
           <div
@@ -375,17 +378,14 @@ const Form = ({ onSubmit }) => {
               index < currentQuestion ? "completed" : ""
             }`}
             onClick={() => {
-              // ✅ Prevent skipping forward if current field is empty
               if (
                 index > currentQuestion &&
                 !formData[questions[currentQuestion].name]
               ) {
-                setDotError(
-                  "⚠ Please complete this step before skipping ahead"
-                );
+                setDotError("⚠ Please complete this step before skipping ahead");
                 return;
               }
-              setDotError(""); // ✅ Clear error if navigation is valid
+              setDotError("");
               setCurrentQuestion(index);
             }}
             title={`Go to Step ${index + 1}`}
@@ -394,7 +394,6 @@ const Form = ({ onSubmit }) => {
         ))}
       </div>
 
-      {/* ✅ Inline message under dots */}
       {dotError && <p className="dot-nav-error">{dotError}</p>}
 
       <div className="form-progress">
@@ -551,20 +550,19 @@ const Form = ({ onSubmit }) => {
                   handleProgramInputChange(e.target.value);
                 }}
                 onKeyDown={handleProgramKeyDown}
-                placeholder="Type your program..."
-                autoComplete="off"
+                placeholder="Search or type your program"
               />
               {filteredPrograms.length > 0 && (
                 <ul className="skill-suggestions">
-                  {filteredPrograms.map((p, index) => (
+                  {filteredPrograms.map((prog, index) => (
                     <li
                       key={index}
                       className={
                         highlightedProgram === index ? "highlighted" : ""
                       }
-                      onMouseDown={() => handleProgramSelect(p)}
+                      onMouseDown={() => handleProgramSelect(prog)}
                     >
-                      {p}
+                      {prog}
                     </li>
                   ))}
                 </ul>
@@ -582,20 +580,19 @@ const Form = ({ onSubmit }) => {
                   handleSchoolInputChange(e.target.value);
                 }}
                 onKeyDown={handleSchoolKeyDown}
-                placeholder="Type your school/university..."
-                autoComplete="off"
+                placeholder="Search or type your school"
               />
               {filteredSchools.length > 0 && (
                 <ul className="skill-suggestions">
-                  {filteredSchools.map((u, index) => (
+                  {filteredSchools.map((uni, index) => (
                     <li
                       key={index}
                       className={
                         highlightedSchool === index ? "highlighted" : ""
                       }
-                      onMouseDown={() => handleSchoolSelect(u.name)}
+                      onMouseDown={() => handleSchoolSelect(uni.name)}
                     >
-                      {u.name} {u.nickname ? `(${u.nickname})` : ""}
+                      {uni.name}
                     </li>
                   ))}
                 </ul>
@@ -605,7 +602,7 @@ const Form = ({ onSubmit }) => {
             <textarea
               name={current.name}
               id={current.name}
-              value={formData[current.name]}
+              value={formData[current.name] || ""}
               onChange={handleInputChange}
               rows="5"
             />
@@ -614,31 +611,33 @@ const Form = ({ onSubmit }) => {
               type={current.type}
               name={current.name}
               id={current.name}
-              value={formData[current.name]}
+              value={formData[current.name] || ""}
               onChange={handleInputChange}
             />
           )}
 
-          {validationError && <p className="error">{validationError}</p>}
-          {error && <p className="error">{error}</p>}
-          {loading && <p className="loading">Generating summary...</p>}
-
-          <div className="form-navigation">
-            {currentQuestion > 0 && (
-              <button className="prev-btn" onClick={handlePrev}>
-                Previous
-              </button>
-            )}
-            <button
-              className="next-btn"
-              onClick={handleNext}
-              disabled={loading || validationError}
-            >
-              {currentQuestion === questions.length - 1 ? "Submit" : "Next"}
-            </button>
-          </div>
+          {validationError && (
+            <p className="validation-error">{validationError}</p>
+          )}
         </motion.div>
       </AnimatePresence>
+
+      <div className="form-navigation">
+        {currentQuestion > 0 && (
+          <button onClick={handlePrev} className="prev-btn">
+            Previous
+          </button>
+        )}
+        <button onClick={handleNext} className="next-btn" disabled={loading}>
+          {currentQuestion === questions.length - 1
+            ? loading
+              ? "Generating..."
+              : "Finish"
+            : "Next"}
+        </button>
+      </div>
+
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
