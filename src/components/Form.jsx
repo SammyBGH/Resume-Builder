@@ -78,6 +78,15 @@ const Form = ({ onSubmit }) => {
   const [validationError, setValidationError] = useState("");
   const [dotError, setDotError] = useState("");
 
+  // Auto-hide dot error after 3 seconds
+  useEffect(() => {
+    if (dotError) {
+      const timer = setTimeout(() => {
+        setDotError("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [dotError]);
 
   const debounceTimer = useRef(null);
   const debounce = (callback, delay = 200) => {
