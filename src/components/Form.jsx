@@ -341,15 +341,40 @@ const Form = ({ onSubmit }) => {
     <div className="form-container">
       {/* ✅ Step Progress Dots */}
       <div className="progress-dots">
-        {questions.map((_, index) => (
+        {questions.map((q, index) => (
           <div
             key={index}
             className={`dot ${index === currentQuestion ? "active" : ""} ${
               index < currentQuestion ? "completed" : ""
             }`}
             onClick={() => {
-              // ✅ Allow both forward and backward navigation without losing data
-              setCurrentQuestion(index);
+              // ✅ Allow backward navigation without restriction
+              if (index <= currentQuestion) {
+                setCurrentQuestion(index);
+              } else {
+                // ✅ Validate all required fields before skipping forward
+                let canNavigate = true;
+                for (let i = currentQuestion; i < index; i++) {
+                  const fieldName = questions[i].name;
+                  const fieldValue = formData[fieldName];
+
+                  // Basic check for empty fields (text, textarea, skills, languages)
+                  if (
+                    (Array.isArray(fieldValue) && fieldValue.length === 0) ||
+                    (typeof fieldValue === "string" && fieldValue.trim() === "")
+                  ) {
+                    canNavigate = false;
+                    alert(
+                      `⚠️ Please complete "${questions[i].label}" before moving forward.`
+                    );
+                    break;
+                  }
+                }
+
+                if (canNavigate) {
+                  setCurrentQuestion(index);
+                }
+              }
             }}
             title={`Go to Step ${index + 1}`}
             style={{ cursor: "pointer" }}
