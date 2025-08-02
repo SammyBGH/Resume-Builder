@@ -50,7 +50,7 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 * **Database:** (Optional future integration: MongoDB)
 * **Version Control:** Git & GitHub
 
-
+---
 
 ## ⚙️ Installation
 
@@ -58,7 +58,6 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 
    ```bash
    git clone https://github.com/SammyBGH/Resume-Builder.git
-````
 
 2. **Navigate into the project directory**
 
