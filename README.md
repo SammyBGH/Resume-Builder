@@ -133,5 +133,3 @@ See the full license terms here: [CC BY-NC-ND 4.0 License](https://creativecommo
 If you find this project useful, don't forget to ⭐ **star the repo** to help others discover it!
 
 ---
-
-Would you like me to create a **`LICENSE` file** with this CC BY-NC-ND license text, so GitHub clearly shows the "Protected License" tag on your repo?
