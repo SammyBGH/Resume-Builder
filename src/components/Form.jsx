@@ -346,23 +346,19 @@ const Form = ({ onSubmit }) => {
             key={index}
             className={`dot ${index === currentQuestion ? "active" : ""} ${
               index < currentQuestion ? "completed" : ""
-            } ${
-              index > currentQuestion &&
-              !formData[questions[currentQuestion].name]
-                ? "error-shake"
-                : ""
             }`}
             onClick={() => {
-              // ✅ Show error animation if trying to skip ahead without filling
+              // ✅ Prevent skipping forward if current field is empty
               if (
                 index > currentQuestion &&
                 !formData[questions[currentQuestion].name]
               ) {
-                // Shake effect triggers automatically via CSS class
-                setDotError("⚠ Please complete this step first");
+                setDotError(
+                  "⚠ Please complete this step before skipping ahead"
+                );
                 return;
               }
-              setDotError(""); // Clear message if moving is allowed
+              setDotError(""); // ✅ Clear error if navigation is valid
               setCurrentQuestion(index);
             }}
             title={`Go to Step ${index + 1}`}
