@@ -341,49 +341,38 @@ const Form = ({ onSubmit }) => {
     <div className="form-container">
       {/* ✅ Step Progress Dots */}
       <div className="progress-dots">
-        {questions.map((q, index) => (
+        {questions.map((_, index) => (
           <div
             key={index}
             className={`dot ${index === currentQuestion ? "active" : ""} ${
               index < currentQuestion ? "completed" : ""
+            } ${
+              index > currentQuestion &&
+              !formData[questions[currentQuestion].name]
+                ? "error-shake"
+                : ""
             }`}
             onClick={() => {
-              if (index <= currentQuestion) {
-                setCurrentQuestion(index);
-                setDotNavError("");
-              } else {
-                // ✅ Validate skipped steps
-                let canNavigate = true;
-                for (let i = currentQuestion; i < index; i++) {
-                  const fieldName = questions[i].name;
-                  const fieldValue = formData[fieldName];
-
-                  if (
-                    (Array.isArray(fieldValue) && fieldValue.length === 0) ||
-                    (typeof fieldValue === "string" && fieldValue.trim() === "")
-                  ) {
-                    canNavigate = false;
-                    setDotNavError(
-                      `⚠️ Please complete "${questions[i].label}" before moving ahead.`
-                    );
-                    break;
-                  }
-                }
-
-                if (canNavigate) {
-                  setCurrentQuestion(index);
-                  setDotNavError("");
-                }
+              // ✅ Show error animation if trying to skip ahead without filling
+              if (
+                index > currentQuestion &&
+                !formData[questions[currentQuestion].name]
+              ) {
+                // Shake effect triggers automatically via CSS class
+                setDotError("⚠ Please complete this step first");
+                return;
               }
+              setDotError(""); // Clear message if moving is allowed
+              setCurrentQuestion(index);
             }}
             title={`Go to Step ${index + 1}`}
             style={{ cursor: "pointer" }}
           ></div>
         ))}
-
-        {/* ✅ Inline error message */}
-        {dotNavError && <p className="dot-nav-error">{dotNavError}</p>}
       </div>
+
+      {/* ✅ Inline message under dots */}
+      {dotError && <p className="dot-nav-error">{dotError}</p>}
 
       <div className="form-progress">
         Step {currentQuestion + 1} of {questions.length}
