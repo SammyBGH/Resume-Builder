@@ -1,6 +1,11 @@
 
 # 📝 Resume Builder App
 
+![React](https://img.shields.io/badge/Built%20with-React-61DBFB?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Powered%20by-Vite-646CFF?logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-orange)
+![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)
+
 A modern, interactive **Resume Builder** built with **React** that helps students and professionals generate customized resumes easily. The app guides users through a series of questions and dynamically generates a clean, professional resume.
 
 ---
@@ -53,7 +58,8 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 
    ```bash
    git clone https://github.com/SammyBGH/Resume-Builder.git
-   ```
+````
+
 2. **Navigate into the project directory**
 
    ```bash
@@ -110,11 +116,11 @@ Contributions are welcome under the following conditions:
 * 💡 **Feature Suggestions:** You may suggest improvements or enhancements.
 * 🔥 **Pull Requests:** Only for bug fixes or non-commercial improvements.
 
-⚠️ **Note:**  
+⚠️ **Note:**
 Due to the license restrictions (**CC BY-NC-ND 4.0**):
-- ❌ You are **not allowed** to copy, modify, or redistribute this code for your own projects or commercial use.  
-- ✅ You may only contribute fixes or suggestions that help improve this repository directly.
 
+* ❌ You are **not allowed** to copy, modify, or redistribute this code for your own projects or commercial use.
+* ✅ You may only contribute fixes or suggestions that help improve this repository directly.
 
 ---
 
@@ -133,4 +139,3 @@ See the full license terms here: [CC BY-NC-ND 4.0 License](https://creativecommo
 
 If you find this project useful, don't forget to ⭐ **star the repo** to help others discover it!
 
----
