@@ -76,6 +76,8 @@ const Form = ({ onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [validationError, setValidationError] = useState("");
+  const [dotError, setDotError] = useState("");
+
 
   const debounceTimer = useRef(null);
   const debounce = (callback, delay = 200) => {
@@ -339,6 +341,7 @@ const Form = ({ onSubmit }) => {
 
   return (
     <div className="form-container">
+      {/* ✅ Step Progress Dots */}
       {/* ✅ Step Progress Dots */}
       <div className="progress-dots">
         {questions.map((_, index) => (
