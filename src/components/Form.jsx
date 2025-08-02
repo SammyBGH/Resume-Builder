@@ -7,7 +7,7 @@ const questions = [
   { name: "fullName", label: "Full Name", type: "text" },
   { name: "email", label: "Email", type: "email" },
   { name: "phone", label: "Phone Number", type: "tel" },
-  { name: "skills", label: "List your skills", type: "text" },
+  { name: "skills", label: "List your skills(Hit ENTER after every skill)", type: "text" },
   { name: "languages", label: "Languages", type: "text" },
   { name: "proficiency", label: "Set Proficiency Levels", type: "dropdown" },
   {
