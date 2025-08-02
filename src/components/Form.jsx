@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import universities from "../data/universities";
-import skillsList from "../data/skills";  // ✅ Import skills list
+import programs from "../data/programs";  // ✅ Import programs list
+import skillsList from "../data/skills";
 import "../styles/Form.css";
 
 const questions = [
@@ -53,23 +54,25 @@ const Form = ({ onSubmit }) => {
   // Inputs
   const [skillInput, setSkillInput] = useState("");
   const [languageInput, setLanguageInput] = useState("");
+  const [programInput, setProgramInput] = useState("");
   const [schoolInput, setSchoolInput] = useState("");
 
   // Filtered lists
   const [filteredSkills, setFilteredSkills] = useState([]);
   const [filteredLanguages, setFilteredLanguages] = useState([]);
+  const [filteredPrograms, setFilteredPrograms] = useState([]);
   const [filteredSchools, setFilteredSchools] = useState([]);
 
   // Highlighted index for navigation
   const [highlightedSkill, setHighlightedSkill] = useState(-1);
   const [highlightedLang, setHighlightedLang] = useState(-1);
+  const [highlightedProgram, setHighlightedProgram] = useState(-1);
   const [highlightedSchool, setHighlightedSchool] = useState(-1);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [validationError, setValidationError] = useState("");
 
-  // ✅ FIX: Persistent debounce timer
   const debounceTimer = useRef(null);
   const debounce = (callback, delay = 200) => {
     return (...args) => {
@@ -80,7 +83,7 @@ const Form = ({ onSubmit }) => {
     };
   };
 
-  // ✅ Real-time validation
+  // ✅ Validation
   const validateInput = (name, value) => {
     if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -243,6 +246,46 @@ const Form = ({ onSubmit }) => {
     } else if (e.key === "Enter" && languageInput.trim() !== "") {
       e.preventDefault();
       addLanguage(languageInput.trim());
+    }
+  };
+
+  /* ====================== PROGRAM ====================== */
+  const handleProgramInputChange = debounce((value) => {
+    const results = programs.filter(
+      (p) => p.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredPrograms(results);
+    setHighlightedProgram(results.length > 0 ? 0 : -1);
+  });
+
+  const handleProgramSelect = (programName) => {
+    setFormData({ ...formData, program: programName });
+    setProgramInput(programName);
+    setFilteredPrograms([]);
+    setHighlightedProgram(-1);
+  };
+
+  const handleProgramKeyDown = (e) => {
+    if (filteredPrograms.length > 0) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightedProgram((prev) => (prev + 1) % filteredPrograms.length);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightedProgram((prev) =>
+          prev <= 0 ? filteredPrograms.length - 1 : prev - 1
+        );
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const selected =
+          highlightedProgram >= 0
+            ? filteredPrograms[highlightedProgram]
+            : programInput.trim();
+        if (selected) handleProgramSelect(selected);
+      }
+    } else if (e.key === "Enter" && programInput.trim() !== "") {
+      e.preventDefault();
+      handleProgramSelect(programInput.trim());
     }
   };
 
@@ -444,6 +487,37 @@ const Form = ({ onSubmit }) => {
                 ))
               ) : (
                 <p>No languages selected yet.</p>
+              )}
+            </div>
+          ) : current.name === "program" ? (
+            <div className="skills-input">
+              <input
+                type="text"
+                name="program"
+                id="program"
+                value={programInput}
+                onChange={(e) => {
+                  setProgramInput(e.target.value);
+                  handleProgramInputChange(e.target.value);
+                }}
+                onKeyDown={handleProgramKeyDown}
+                placeholder="Type your program..."
+                autoComplete="off"
+              />
+              {filteredPrograms.length > 0 && (
+                <ul className="skill-suggestions">
+                  {filteredPrograms.map((p, index) => (
+                    <li
+                      key={index}
+                      className={
+                        highlightedProgram === index ? "highlighted" : ""
+                      }
+                      onMouseDown={() => handleProgramSelect(p)}
+                    >
+                      {p}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           ) : current.name === "school" ? (
