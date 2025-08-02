@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import universities from "../data/universities";
-import programs from "../data/programs";  // ✅ Import programs list
+import programs from "../data/programs"; // ✅ Import programs list
 import skillsList from "../data/skills";
 import "../styles/Form.css";
 
@@ -9,7 +9,11 @@ const questions = [
   { name: "fullName", label: "Full Name", type: "text" },
   { name: "email", label: "Email", type: "email" },
   { name: "phone", label: "Phone Number", type: "tel" },
-  { name: "skills", label: "List your skills(Hit ENTER after every skill)", type: "text" },
+  {
+    name: "skills",
+    label: "List your skills(Hit ENTER after every skill)",
+    type: "text",
+  },
   { name: "languages", label: "Languages", type: "text" },
   { name: "proficiency", label: "Set Proficiency Levels", type: "dropdown" },
   {
@@ -251,8 +255,8 @@ const Form = ({ onSubmit }) => {
 
   /* ====================== PROGRAM ====================== */
   const handleProgramInputChange = debounce((value) => {
-    const results = programs.filter(
-      (p) => p.toLowerCase().includes(value.toLowerCase())
+    const results = programs.filter((p) =>
+      p.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredPrograms(results);
     setHighlightedProgram(results.length > 0 ? 0 : -1);
@@ -343,6 +347,16 @@ const Form = ({ onSubmit }) => {
             className={`dot ${index === currentQuestion ? "active" : ""} ${
               index < currentQuestion ? "completed" : ""
             }`}
+            onClick={() => {
+              // Allow clicking back to previous or current steps only
+              if (index <= currentQuestion) {
+                setCurrentQuestion(index);
+              }
+            }}
+            title={`Go to Step ${index + 1}`}
+            style={{
+              cursor: index <= currentQuestion ? "pointer" : "not-allowed",
+            }}
           ></div>
         ))}
       </div>
