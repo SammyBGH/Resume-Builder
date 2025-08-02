@@ -60,19 +60,23 @@
 }
 
 .dot-nav-error {
-  width: 100%;
   text-align: center;
   color: #dc2626;
   font-size: 0.9rem;
-  margin-top: 6px;
-  font-weight: 500;
-  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 5px;
+  animation: fadeIn 0.3s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 
 
 
