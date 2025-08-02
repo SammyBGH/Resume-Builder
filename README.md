@@ -52,7 +52,7 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/resume-builder.git
+   git clone https://github.com/SammyBGH/Resume-Builder.git
    ```
 2. **Navigate into the project directory**
 
@@ -104,16 +104,17 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+Contributions are welcome under the following conditions:
 
-* 🐛 Report bugs
-* 💡 Suggest new features
-* 🔥 Submit pull requests
+* 🐛 **Bug Reports:** If you find issues or errors, feel free to open an issue.
+* 💡 **Feature Suggestions:** You may suggest improvements or enhancements.
+* 🔥 **Pull Requests:** Only for bug fixes or non-commercial improvements.
 
-1. Fork this repo
-2. Create a new branch (`feature/YourFeature`)
-3. Commit your changes
-4. Push your branch and open a Pull Request
+⚠️ **Note:**  
+Due to the license restrictions (**CC BY-NC-ND 4.0**):
+- ❌ You are **not allowed** to copy, modify, or redistribute this code for your own projects or commercial use.  
+- ✅ You may only contribute fixes or suggestions that help improve this repository directly.
+
 
 ---
 
