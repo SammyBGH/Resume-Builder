@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import universities from "../data/universities";
+import skillsList from "../data/skills";  // ✅ Import skills list
 import "../styles/Form.css";
 
 const questions = [
@@ -22,25 +23,6 @@ const questions = [
 ];
 
 const proficiencyLevels = ["Native", "Fluent", "Intermediate", "Beginner"];
-
-const skillsList = [
-  "JavaScript",
-  "React",
-  "Node.js",
-  "Python",
-  "CSS",
-  "HTML",
-  "MongoDB",
-  "SQL",
-  "Git",
-  "Docker",
-  "Figma",
-  "C++",
-  "Java",
-  "TypeScript",
-  "Express",
-  "Django",
-];
 
 const languageSuggestions = [
   "English",
