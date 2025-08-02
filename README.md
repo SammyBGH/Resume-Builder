@@ -74,13 +74,6 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
    ```bash
    npm run dev
    ```
-5. **(Optional)** Start the backend server (if using AI summary)
-
-   ```bash
-   cd server
-   npm install
-   npm start
-   ```
 
 ---
 
