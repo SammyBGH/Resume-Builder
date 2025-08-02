@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import axios from 'axios';
 import '../styles/ResumePreview.css';
@@ -22,9 +22,26 @@ function ResumePreview({ data }) {
   const [template, setTemplate] = useState("modern");
   const [paymentVerified, setPaymentVerified] = useState(false);
   const [resumeId, setResumeId] = useState(null);
+  const [resumeData, setResumeData] = useState(data || {});
 
-  // ✅ API Base URL (works for local + production)
+  // ✅ API Base URL
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://resumio-api.onrender.com";
+
+  // ✅ Load saved resume data on page load
+  useEffect(() => {
+    const savedData = localStorage.getItem("resumePreviewData");
+    if (savedData) {
+      setResumeData(JSON.parse(savedData));
+    }
+  }, []);
+
+  // ✅ Save data whenever "data" prop changes
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setResumeData(data);
+      localStorage.setItem("resumePreviewData", JSON.stringify(data));
+    }
+  }, [data]);
 
   // ✅ Save resume before payment
   const saveResume = async () => {
@@ -37,7 +54,7 @@ function ResumePreview({ data }) {
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/resumes`,
-        data,
+        resumeData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setResumeId(res.data.resume._id);
@@ -60,8 +77,8 @@ function ResumePreview({ data }) {
 
     const handler = window.PaystackPop.setup({
       key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-      email: data.email || "user@example.com",
-      amount: 1000, // ✅ 10 GHS in pesewas
+      email: resumeData.email || "user@example.com",
+      amount: 1000,
       currency: "GHS",
       ref: "RESUME-" + Date.now(),
       onClose: () => {
@@ -97,7 +114,7 @@ function ResumePreview({ data }) {
 
     const opt = {
       margin: 0.3,
-      filename: `${data.fullName || "resume"}.pdf`,
+      filename: `${resumeData.fullName || "resume"}.pdf`,
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -109,7 +126,7 @@ function ResumePreview({ data }) {
     });
   };
 
-  if (!data) return null;
+  if (!resumeData || Object.keys(resumeData).length === 0) return null;
 
   return (
     <div className="resume-preview-wrapper">
@@ -123,29 +140,29 @@ function ResumePreview({ data }) {
       {/* Resume Preview */}
       <div className={`resume-preview template-${template}`} ref={resumeRef}>
         <div className="resume-header">
-          <h1>{data.fullName}</h1>
+          <h1>{resumeData.fullName}</h1>
           <div className="contact-info">
-            {data.phone && <p><FaPhone /> {data.phone}</p>}
-            {data.email && <p><FaEnvelope /> {data.email}</p>}
-            {data.location && <p><FaMapMarkerAlt /> {data.location}</p>}
-            {data.website && <p><FaGlobe /> {data.website}</p>}
+            {resumeData.phone && <p><FaPhone /> {resumeData.phone}</p>}
+            {resumeData.email && <p><FaEnvelope /> {resumeData.email}</p>}
+            {resumeData.location && <p><FaMapMarkerAlt /> {resumeData.location}</p>}
+            {resumeData.website && <p><FaGlobe /> {resumeData.website}</p>}
           </div>
         </div>
 
         {/* Summary */}
-        {data.summary && (
+        {resumeData.summary && (
           <div className="section">
             <h2><FaUserAlt className="icon" /> Summary</h2>
-            <p>{data.summary}</p>
+            <p>{resumeData.summary}</p>
           </div>
         )}
 
         {/* Experience */}
-        {data.experience && (
+        {resumeData.experience && (
           <div className="section">
             <h2><FaBriefcase className="icon" /> Experience</h2>
             <ul>
-              {data.experience.split('\n').map((exp, i) => (
+              {resumeData.experience.split('\n').map((exp, i) => (
                 <li key={i}>{exp}</li>
               ))}
             </ul>
@@ -153,11 +170,11 @@ function ResumePreview({ data }) {
         )}
 
         {/* Skills */}
-        {data.skills && data.skills.length > 0 && (
+        {resumeData.skills && resumeData.skills.length > 0 && (
           <div className="section">
             <h2><FaTools className="icon" /> Skills</h2>
             <ul>
-              {data.skills.map((skill, i) => (
+              {resumeData.skills.map((skill, i) => (
                 <li key={i}>{skill}</li>
               ))}
             </ul>
@@ -165,22 +182,22 @@ function ResumePreview({ data }) {
         )}
 
         {/* Education */}
-        {(data.program || data.school) && (
+        {(resumeData.program || resumeData.school) && (
           <div className="section">
             <h2><FaGraduationCap className="icon" /> Education</h2>
             <p id='child1'>
-              {data.program && <strong>{data.program}</strong>}<br />
-              {data.school && <span className="school-name">{data.school}</span>}
+              {resumeData.program && <strong>{resumeData.program}</strong>}<br />
+              {resumeData.school && <span className="school-name">{resumeData.school}</span>}
             </p>
           </div>
         )}
 
         {/* Languages */}
-        {data.languages && data.languages.length > 0 && (
+        {resumeData.languages && resumeData.languages.length > 0 && (
           <div className="section">
             <h2><FaLanguage className="icon" /> Languages</h2>
             <ul>
-              {data.languages.map((lang, i) => (
+              {resumeData.languages.map((lang, i) => (
                 <li key={i}>
                   <strong>{lang.name}</strong>
                   {lang.proficiency && <span className="proficiency"> ({lang.proficiency})</span>}
@@ -191,11 +208,11 @@ function ResumePreview({ data }) {
         )}
 
         {/* Projects */}
-        {data.projects && (
+        {resumeData.projects && (
           <div className="section">
             <h2><FaFolderOpen className="icon" /> Projects</h2>
             <ul>
-              {data.projects.split('\n').map((proj, i) => (
+              {resumeData.projects.split('\n').map((proj, i) => (
                 <li key={i}>{proj}</li>
               ))}
             </ul>
@@ -203,11 +220,11 @@ function ResumePreview({ data }) {
         )}
 
         {/* Certifications */}
-        {data.certifications && (
+        {resumeData.certifications && (
           <div className="section">
             <h2><FaCertificate className="icon" /> Certifications</h2>
             <ul>
-              {data.certifications.split('\n').map((cert, i) => (
+              {resumeData.certifications.split('\n').map((cert, i) => (
                 <li key={i}>{cert}</li>
               ))}
             </ul>
