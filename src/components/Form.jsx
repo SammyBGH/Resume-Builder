@@ -78,6 +78,20 @@ const Form = ({ onSubmit }) => {
   const [validationError, setValidationError] = useState("");
   const [dotError, setDotError] = useState("");
 
+  // ✅ Load saved data on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem("resumeFormData");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  // ✅ Auto-save form data whenever it changes
+  useEffect(() => {
+    localStorage.setItem("resumeFormData", JSON.stringify(formData));
+  }, [formData]);
+
+
   // Auto-hide dot error after 3 seconds
   useEffect(() => {
     if (dotError) {
@@ -140,6 +154,7 @@ const Form = ({ onSubmit }) => {
         const data = await response.json();
         const summary = data.summary;
         onSubmit({ ...formData, summary });
+        localStorage.removeItem("resumeFormData");
       } catch (err) {
         setError(err.message);
       } finally {
