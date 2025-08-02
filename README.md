@@ -7,20 +7,20 @@ A modern, interactive **Resume Builder** built with **React** that helps student
 
 ## 📑 Table of Contents
 
-- [🚀 Overview](#-overview)
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#%EF%B8%8F-tech-stack)
-- [⚙️ Installation](#%EF%B8%8F-installation)
-- [▶️ Usage](#%EF%B8%8F-usage)
-- [📸 Screenshots](#-screenshots)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
+* [🚀 Overview](#-overview)
+* [✨ Features](#-features)
+* [🛠️ Tech Stack](#%EF%B8%8F-tech-stack)
+* [⚙️ Installation](#%EF%B8%8F-installation)
+* [▶️ Usage](#%EF%B8%8F-usage)
+* [📸 Screenshots](#-screenshots)
+* [🤝 Contributing](#-contributing)
+* [📜 License](#-license)
 
 ---
 
 ## 🚀 Overview
 
-This Resume Builder app provides a **step-by-step form-based interface** for users to input their personal details, skills, education, and experience.  
+This Resume Builder app provides a **step-by-step form-based interface** for users to input their personal details, skills, education, and experience.
 It then automatically generates a well-structured resume based on the provided data.
 
 The project is designed to be **simple, fast, and responsive**, making resume building effortless for students and professionals alike.
@@ -29,31 +29,31 @@ The project is designed to be **simple, fast, and responsive**, making resume bu
 
 ## ✨ Features
 
-- ✅ **Interactive Question-based Form** – Collects user data step-by-step  
-- ✅ **Dynamic Resume Generation** – Creates a clean, ready-to-download resume  
-- ✅ **Auto Skill Suggestions** – Smart skill suggestions as you type  
-- ✅ **Language & Proficiency Selector** – Easily add multiple languages and levels  
-- ✅ **Responsive Design** – Works across devices (desktop, tablet, mobile)  
-- ✅ **Smooth Animations** – Framer Motion transitions for a modern UI
+* ✅ **Interactive Question-based Form** – Collects user data step-by-step
+* ✅ **Dynamic Resume Generation** – Creates a clean, ready-to-download resume
+* ✅ **Auto Skill Suggestions** – Smart skill suggestions as you type
+* ✅ **Language & Proficiency Selector** – Easily add multiple languages and levels
+* ✅ **Responsive Design** – Works across devices (desktop, tablet, mobile)
+* ✅ **Smooth Animations** – Framer Motion transitions for a modern UI
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React (Vite), CSS3, Framer Motion  
-- **Backend:** Node.js, Express (for AI-powered summary generation)  
-- **Database:** (Optional future integration: MongoDB)  
-- **Version Control:** Git & GitHub
+* **Frontend:** React (Vite), CSS3, Framer Motion
+* **Backend:** Node.js, Express (for AI-powered summary generation)
+* **Database:** (Optional future integration: MongoDB)
+* **Version Control:** Git & GitHub
 
 ---
 
 ## ⚙️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/resume-builder.git
-
-
+   ```
 2. **Navigate into the project directory**
 
    ```bash
@@ -119,7 +119,12 @@ Contributions are welcome! Here's how you can help:
 
 ## 📜 License
 
-This project is licensed under the **MIT License** – you are free to use, modify, and distribute it.
+This project is licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)**.
+
+* ✅ You may **view and reference** this project for personal or educational purposes.
+* ❌ You may **NOT copy, modify, redistribute, or use** this code for commercial purposes without explicit permission from the author.
+
+See the full license terms here: [CC BY-NC-ND 4.0 License](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 ---
 
@@ -127,3 +132,6 @@ This project is licensed under the **MIT License** – you are free to use, modi
 
 If you find this project useful, don't forget to ⭐ **star the repo** to help others discover it!
 
+---
+
+Would you like me to create a **`LICENSE` file** with this CC BY-NC-ND license text, so GitHub clearly shows the "Protected License" tag on your repo?
