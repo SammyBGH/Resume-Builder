@@ -43,6 +43,16 @@ function ResumePreview({ data }) {
     }
   }, [data]);
 
+  // ✅ Auto-save resume on first load to ensure resumeId exists
+  useEffect(() => {
+    const autoSave = async () => {
+      if (!localStorage.getItem("savedResumeId") && resumeData && Object.keys(resumeData).length > 0) {
+        await saveResume();
+      }
+    };
+    autoSave();
+  }, [resumeData]);
+
   // ✅ Check payment status on page refresh
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -51,7 +61,7 @@ function ResumePreview({ data }) {
       if (!idToCheck) return;
 
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/payment-status/${idToCheck}`);
+        const res = await axios.get(`${API_BASE_URL}/api/payments/payment-status/${idToCheck}`);
         if (res.data.success && res.data.paid) {
           setPaymentVerified(true);
           setResumeId(idToCheck);
@@ -103,26 +113,23 @@ function ResumePreview({ data }) {
       amount: 1000,
       currency: "GHS",
       ref: "RESUME-" + Date.now(),
+      metadata: { resumeId: id }, // ✅ Ensures backend knows which resume to mark as paid
       onClose: () => {
         alert("Payment popup closed.");
       },
-      callback: (response) => {
-        const token = localStorage.getItem("authToken");
-
-        if (token) {
-          axios.patch(
-            `${API_BASE_URL}/api/resumes/${id}/pay`,
-            {},
-            { headers: { Authorization: `Bearer ${token}` } }
-          ).then(() => {
-            alert("✅ Payment successful! Ref: " + response.reference);
+      callback: async (response) => {
+        try {
+          // ✅ Verify payment after callback
+          const verifyRes = await axios.get(`${API_BASE_URL}/api/payments/verify/${response.reference}`);
+          if (verifyRes.data.success) {
             setPaymentVerified(true);
-          }).catch(() => {
-            alert("Payment successful but failed to update status. Contact support.");
-          });
-        } else {
-          alert("✅ Payment successful! Ref: " + response.reference);
-          setPaymentVerified(true);
+            alert("✅ Payment verified successfully!");
+          } else {
+            alert("Payment completed but verification failed. Contact support.");
+          }
+        } catch (err) {
+          console.error("Verification error:", err);
+          alert("Payment completed but verification check failed.");
         }
       },
     });
