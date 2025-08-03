@@ -8,7 +8,7 @@ import "../styles/Form.css";
 const questions = [
   { name: "fullName", label: "Full Name", type: "text" },
   { name: "email", label: "Email", type: "email" },
-  { name: "phone", label: "Phone Number", type: "tel" },
+  { name: "phone", label: "Phone Number", type: "tel", inputMode: "numeric" },
   {
     name: "skills",
     label: "List your skills(Hit ENTER after every skill)",
@@ -632,10 +632,12 @@ const Form = ({ onSubmit }) => {
           ) : (
             <input
               type={current.type}
+              inputMode={current.inputMode || undefined}
               name={current.name}
               id={current.name}
               value={formData[current.name] || ""}
               onChange={handleInputChange}
+              autoComplete={current.name === "email" ? "email" : "off"}
             />
           )}
 
