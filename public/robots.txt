@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://resumio-five.vercel.app/sitemap.xml
