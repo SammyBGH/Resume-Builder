@@ -141,6 +141,27 @@ const Form = ({ onSubmit }) => {
   const handleNext = async () => {
     if (validationError) return;
 
+    // ✅ Auto-add skill if user typed one but didn't press Enter
+    if (current.name === "skills" && skillInput.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        skills: [...prev.skills, skillInput.trim()],
+      }));
+      setSkillInput("");
+    }
+
+    // ✅ Auto-add language if user typed one but didn't press Enter
+    if (current.name === "languages" && languageInput.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        languages: [
+          ...prev.languages,
+          { name: languageInput.trim(), proficiency: "Fluent" },
+        ],
+      }));
+      setLanguageInput("");
+    }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -382,7 +403,9 @@ const Form = ({ onSubmit }) => {
                 index > currentQuestion &&
                 !formData[questions[currentQuestion].name]
               ) {
-                setDotError("⚠ Please complete this step before skipping ahead");
+                setDotError(
+                  "⚠ Please complete this step before skipping ahead"
+                );
                 return;
               }
               setDotError("");
