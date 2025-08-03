@@ -160,7 +160,6 @@ function ResumePreview({ data }) {
 
   return (
     <div className="resume-preview-wrapper">
-      <div className="watermark">Resumio - Protected</div>
       {/* Template Selector */}
       <div className="template-selector">
         <button
@@ -185,6 +184,7 @@ function ResumePreview({ data }) {
 
       {/* Resume Preview */}
       <div className={`resume-preview template-${template}`} ref={resumeRef}>
+        <div className="watermark">Resumio - Protected</div>
         <div className="resume-header">
           <h1>{resumeData.fullName}</h1>
           <div className="contact-info">
