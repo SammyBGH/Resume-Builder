@@ -655,10 +655,16 @@ const Form = ({ onSubmit }) => {
           {currentQuestion === questions.length - 1
             ? loading
               ? "Generating..."
-              : "Finish"
+              : "Submit"
             : "Next"}
         </button>
       </div>
+      {loading && (
+        <div className="loading-message">
+          <div className="spinner"></div>
+          Generating your summary, please wait...
+        </div>
+      )}
 
       {error && <p className="error-message">{error}</p>}
     </div>
