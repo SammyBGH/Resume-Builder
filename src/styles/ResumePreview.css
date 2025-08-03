@@ -282,3 +282,22 @@
   color: #28a745;
   text-align: center;
 }
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 3rem;
+  color: rgba(0, 0, 0, 0.07);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 9999;
+}
+
+/* Hide watermark in PDF export */
+@media print {
+  .watermark {
+    display: none !important;
+  }
+}
