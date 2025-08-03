@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react'; 
-import html2pdf from 'html2pdf.js';
-import axios from 'axios';
-import '../styles/ResumePreview.css';
+import React, { useRef, useState, useEffect } from "react";
+import html2pdf from "html2pdf.js";
+import axios from "axios";
+import "../styles/ResumePreview.css";
 import {
   FaPhone,
   FaEnvelope,
@@ -14,8 +14,8 @@ import {
   FaLanguage,
   FaDownload,
   FaCertificate,
-  FaFolderOpen
-} from 'react-icons/fa';
+  FaFolderOpen,
+} from "react-icons/fa";
 
 function ResumePreview({ data }) {
   const resumeRef = useRef();
@@ -25,7 +25,8 @@ function ResumePreview({ data }) {
   const [resumeData, setResumeData] = useState(data || {});
 
   // ✅ API Base URL
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://resumio-api.onrender.com";
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "https://resumio-api.onrender.com";
 
   // ✅ Load saved resume data on page load
   useEffect(() => {
@@ -50,7 +51,9 @@ function ResumePreview({ data }) {
       if (!savedId) return;
 
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/payments/payment-status/${savedId}`);
+        const res = await axios.get(
+          `${API_BASE_URL}/api/payments/payment-status/${savedId}`
+        );
         if (res.data.success && res.data.paid) {
           setPaymentVerified(true);
           setResumeId(savedId);
@@ -71,11 +74,9 @@ function ResumePreview({ data }) {
     }
 
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/api/resumes`,
-        resumeData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await axios.post(`${API_BASE_URL}/api/resumes`, resumeData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setResumeId(res.data.resume._id);
       localStorage.setItem("savedResumeId", res.data.resume._id); // ✅ Save for refresh
       return res.data.resume._id;
@@ -92,7 +93,7 @@ function ResumePreview({ data }) {
       return;
     }
 
-    const id = resumeId || await saveResume();
+    const id = resumeId || (await saveResume());
     if (!id) return;
 
     const handler = window.PaystackPop.setup({
@@ -108,16 +109,21 @@ function ResumePreview({ data }) {
         const token = localStorage.getItem("authToken");
 
         if (token) {
-          axios.patch(
-            `${API_BASE_URL}/api/resumes/${id}/pay`,
-            {},
-            { headers: { Authorization: `Bearer ${token}` } }
-          ).then(() => {
-            alert("✅ Payment successful! Ref: " + response.reference);
-            setPaymentVerified(true);
-          }).catch(() => {
-            alert("Payment successful but failed to update status. Contact support.");
-          });
+          axios
+            .patch(
+              `${API_BASE_URL}/api/resumes/${id}/pay`,
+              {},
+              { headers: { Authorization: `Bearer ${token}` } }
+            )
+            .then(() => {
+              alert("✅ Payment successful! Ref: " + response.reference);
+              setPaymentVerified(true);
+            })
+            .catch(() => {
+              alert(
+                "Payment successful but failed to update status. Contact support."
+              );
+            });
         } else {
           alert("✅ Payment successful! Ref: " + response.reference);
           setPaymentVerified(true);
@@ -135,15 +141,19 @@ function ResumePreview({ data }) {
     const opt = {
       margin: 0.3,
       filename: `${resumeData.fullName || "resume"}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: "jpeg", quality: 1 },
       html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
     };
 
     element.classList.add("pdf-export");
-    html2pdf().from(element).set(opt).save().then(() => {
-      element.classList.remove("pdf-export");
-    });
+    html2pdf()
+      .from(element)
+      .set(opt)
+      .save()
+      .then(() => {
+        element.classList.remove("pdf-export");
+      });
   };
 
   if (!resumeData || Object.keys(resumeData).length === 0) return null;
@@ -152,9 +162,24 @@ function ResumePreview({ data }) {
     <div className="resume-preview-wrapper">
       {/* Template Selector */}
       <div className="template-selector">
-        <button className={template === "modern" ? "active" : ""} onClick={() => setTemplate("modern")}>Modern</button>
-        <button className={template === "classic" ? "active" : ""} onClick={() => setTemplate("classic")}>Classic</button>
-        <button className={template === "minimal" ? "active" : ""} onClick={() => setTemplate("minimal")}>Minimal</button>
+        <button
+          className={template === "modern" ? "active" : ""}
+          onClick={() => setTemplate("modern")}
+        >
+          Modern
+        </button>
+        <button
+          className={template === "classic" ? "active" : ""}
+          onClick={() => setTemplate("classic")}
+        >
+          Classic
+        </button>
+        <button
+          className={template === "minimal" ? "active" : ""}
+          onClick={() => setTemplate("minimal")}
+        >
+          Minimal
+        </button>
       </div>
 
       {/* Resume Preview */}
@@ -162,17 +187,35 @@ function ResumePreview({ data }) {
         <div className="resume-header">
           <h1>{resumeData.fullName}</h1>
           <div className="contact-info">
-            {resumeData.phone && <p><FaPhone /> {resumeData.phone}</p>}
-            {resumeData.email && <p><FaEnvelope /> {resumeData.email}</p>}
-            {resumeData.location && <p><FaMapMarkerAlt /> {resumeData.location}</p>}
-            {resumeData.website && <p><FaGlobe /> {resumeData.website}</p>}
+            {resumeData.phone && (
+              <p>
+                <FaPhone /> {resumeData.phone}
+              </p>
+            )}
+            {resumeData.email && (
+              <p>
+                <FaEnvelope /> {resumeData.email}
+              </p>
+            )}
+            {resumeData.location && (
+              <p>
+                <FaMapMarkerAlt /> {resumeData.location}
+              </p>
+            )}
+            {resumeData.website && (
+              <p>
+                <FaGlobe /> {resumeData.website}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Summary */}
         {resumeData.summary && (
           <div className="section">
-            <h2><FaUserAlt className="icon" /> Summary</h2>
+            <h2>
+              <FaUserAlt className="icon" /> Summary
+            </h2>
             <p>{resumeData.summary}</p>
           </div>
         )}
@@ -180,9 +223,11 @@ function ResumePreview({ data }) {
         {/* Experience */}
         {resumeData.experience && (
           <div className="section">
-            <h2><FaBriefcase className="icon" /> Experience</h2>
+            <h2>
+              <FaBriefcase className="icon" /> Experience
+            </h2>
             <ul>
-              {resumeData.experience.split('\n').map((exp, i) => (
+              {resumeData.experience.split("\n").map((exp, i) => (
                 <li key={i}>{exp}</li>
               ))}
             </ul>
@@ -192,7 +237,9 @@ function ResumePreview({ data }) {
         {/* Skills */}
         {resumeData.skills && resumeData.skills.length > 0 && (
           <div className="section">
-            <h2><FaTools className="icon" /> Skills</h2>
+            <h2>
+              <FaTools className="icon" /> Skills
+            </h2>
             <ul>
               {resumeData.skills.map((skill, i) => (
                 <li key={i}>{skill}</li>
@@ -204,10 +251,15 @@ function ResumePreview({ data }) {
         {/* Education */}
         {(resumeData.program || resumeData.school) && (
           <div className="section">
-            <h2><FaGraduationCap className="icon" /> Education</h2>
-            <p id='child1'>
-              {resumeData.program && <strong>{resumeData.program}</strong>}<br />
-              {resumeData.school && <span className="school-name">{resumeData.school}</span>}
+            <h2>
+              <FaGraduationCap className="icon" /> Education
+            </h2>
+            <p id="child1">
+              {resumeData.program && <strong>{resumeData.program}</strong>}
+              <br />
+              {resumeData.school && (
+                <span className="school-name">{resumeData.school}</span>
+              )}
             </p>
           </div>
         )}
@@ -215,12 +267,16 @@ function ResumePreview({ data }) {
         {/* Languages */}
         {resumeData.languages && resumeData.languages.length > 0 && (
           <div className="section">
-            <h2><FaLanguage className="icon" /> Languages</h2>
+            <h2>
+              <FaLanguage className="icon" /> Languages
+            </h2>
             <ul>
               {resumeData.languages.map((lang, i) => (
                 <li key={i}>
                   <strong>{lang.name}</strong>
-                  {lang.proficiency && <span className="proficiency"> ({lang.proficiency})</span>}
+                  {lang.proficiency && (
+                    <span className="proficiency"> ({lang.proficiency})</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -230,9 +286,11 @@ function ResumePreview({ data }) {
         {/* Projects */}
         {resumeData.projects && (
           <div className="section">
-            <h2><FaFolderOpen className="icon" /> Projects</h2>
+            <h2>
+              <FaFolderOpen className="icon" /> Projects
+            </h2>
             <ul>
-              {resumeData.projects.split('\n').map((proj, i) => (
+              {resumeData.projects.split("\n").map((proj, i) => (
                 <li key={i}>{proj}</li>
               ))}
             </ul>
@@ -242,9 +300,11 @@ function ResumePreview({ data }) {
         {/* Certifications */}
         {resumeData.certifications && (
           <div className="section">
-            <h2><FaCertificate className="icon" /> Certifications</h2>
+            <h2>
+              <FaCertificate className="icon" /> Certifications
+            </h2>
             <ul>
-              {resumeData.certifications.split('\n').map((cert, i) => (
+              {resumeData.certifications.split("\n").map((cert, i) => (
                 <li key={i}>{cert}</li>
               ))}
             </ul>
@@ -254,13 +314,25 @@ function ResumePreview({ data }) {
 
       {/* Payment or Download Button */}
       {!paymentVerified ? (
-        <button className="payment-btn" onClick={handlePayment}>
-          💳 Pay GHS 10 to Unlock Download
-        </button>
+        <>
+          <button className="payment-btn" onClick={handlePayment}>
+            💳 Pay GHS 10 to Unlock Download
+          </button>
+          <p className="payment-warning">
+            ⚠️ Please do not refresh or close this page until your payment is
+            confirmed.
+          </p>
+        </>
       ) : (
-        <button className="download-btn" onClick={downloadPDF}>
-          <FaDownload /> Download PDF
-        </button>
+        <>
+          <button className="download-btn" onClick={downloadPDF}>
+            <FaDownload /> Download PDF
+          </button>
+          <p className="download-warning">
+            ✅ Payment verified. You can still edit your resume and download
+            updated PDFs even after payment (do not refresh or close page).
+          </p>
+        </>
       )}
     </div>
   );

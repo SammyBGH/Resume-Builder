@@ -268,3 +268,17 @@
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
+
+.payment-warning {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #d9534f;
+  text-align: center;
+}
+
+.download-warning {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #28a745;
+  text-align: center;
+}
