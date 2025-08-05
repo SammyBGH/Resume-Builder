@@ -1,0 +1,104 @@
+/* ===========================
+   MODAL OVERLAY
+=========================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Darkened background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 15px;
+  overflow-y: auto;
+  backdrop-filter: blur(2px);
+}
+
+/* ===========================
+   MODAL CONTAINER
+=========================== */
+.modal-container {
+  background: #fff;
+  width: 95%;
+  max-width: 850px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  position: relative;
+  animation: modalPop 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Animation for modal */
+@keyframes modalPop {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   CLOSE BUTTON
+=========================== */
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #c0392b;
+}
+
+/* ===========================
+   MODAL CONTENT
+=========================== */
+.modal-content {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+/* Make Resume Preview look good in modal */
+.modal-content .resume-preview-wrapper {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.modal-content .resume-preview {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Scrollbar styling inside modal */
+.modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

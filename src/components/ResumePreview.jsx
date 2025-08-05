@@ -1,3 +1,4 @@
+// src/components/ResumePreview.jsx
 import React, { useRef, useState, useEffect } from "react";
 import html2pdf from "html2pdf.js";
 import axios from "axios";
@@ -17,7 +18,7 @@ import {
   FaFolderOpen,
 } from "react-icons/fa";
 
-function ResumePreview({ data }) {
+function ResumePreview({ data, onClose }) {
   const resumeRef = useRef();
   const [template, setTemplate] = useState("modern");
   const [paymentVerified, setPaymentVerified] = useState(false);
@@ -314,27 +315,35 @@ function ResumePreview({ data }) {
       </div>
 
       {/* Payment or Download Button */}
-      {!paymentVerified ? (
-        <>
-          <button className="payment-btn" onClick={handlePayment}>
-            💳 Pay GHS 10 to Unlock Download
-          </button>
-          <p className="payment-warning">
-            ⚠️ Please do not refresh or close this page until your payment is
-            confirmed.
-          </p>
-        </>
-      ) : (
-        <>
-          <button className="download-btn" onClick={downloadPDF}>
-            <FaDownload /> Download PDF
-          </button>
-          <p className="download-warning">
-            ✅ Payment verified. You can still edit your resume and download
-            updated PDFs even after payment (do not refresh or close page).
-          </p>
-        </>
-      )}
+      <div className="resume-actions">
+        {!paymentVerified ? (
+          <>
+            <button className="payment-btn" onClick={handlePayment}>
+              💳 Pay GHS 10 to Unlock Download
+            </button>
+            <button className="edit-btn" onClick={onClose}>
+              ✏️ Close & Edit Resume
+            </button>
+            <p className="payment-warning">
+              ⚠️ Please do not refresh or close this page until your payment is
+              confirmed.
+            </p>
+          </>
+        ) : (
+          <>
+            <button className="download-btn" onClick={downloadPDF}>
+              <FaDownload /> Download PDF
+            </button>
+            <button className="edit-btn" onClick={onClose}>
+              ✏️ Close & Edit Resume
+            </button>
+            <p className="download-warning">
+              ✅ Payment verified. You can still edit your resume and download
+              updated PDFs even after payment (do not refresh or close page).
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 }
