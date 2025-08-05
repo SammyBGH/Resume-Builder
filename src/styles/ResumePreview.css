@@ -216,6 +216,25 @@
   color: #777;
 }
 
+
+/* ✅ Responsive Design for Template Selector */
+@media (max-width: 600px) {
+  .template-selector {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .template-selector button {
+    min-width: auto;
+    flex: 1 1 30%;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+
+
 /* ✅ Resume Actions Container */
 .resume-actions {
   display: flex;
