@@ -31,7 +31,6 @@
   animation: modalPop 0.3s ease;
   max-height: 90vh;
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
 /* Animation for modal */
