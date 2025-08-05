@@ -3,12 +3,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import universities from "../data/universities";
 import programs from "../data/programs"; // ✅ Import programs list
 import skillsList from "../data/skills";
+import countries from "../data/countries";
 import "../styles/Form.css";
 
 const questions = [
   { name: "fullName", label: "Full Name", type: "text" },
   { name: "email", label: "Email", type: "email" },
   { name: "phone", label: "Phone Number", type: "tel", inputMode: "numeric" },
+  {
+    name: "country",
+    label: "Country",
+    type: "text",
+  },
+  {
+    name: "city",
+    label: "City / Zipcode",
+    type: "text",
+  },
+
   {
     name: "skills",
     label: "List your skills(Hit ENTER after every skill)",
@@ -77,6 +89,11 @@ const Form = ({ onSubmit }) => {
   const [error, setError] = useState(null);
   const [validationError, setValidationError] = useState("");
   const [dotError, setDotError] = useState("");
+
+  // Countries
+  const [countryInput, setCountryInput] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [highlightedCountry, setHighlightedCountry] = useState(-1);
 
   // ✅ Load saved data on component mount
   useEffect(() => {
@@ -243,6 +260,29 @@ const Form = ({ onSubmit }) => {
       e.preventDefault();
       addSkill(skillInput.trim());
     }
+  };
+
+  /* ====================== COUNTRIES ====================== */
+  const handleCountryInputChange = (value) => {
+    setCountryInput(value);
+    setFilteredCountries(
+      countries.filter((country) =>
+        country.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+    setFormData({ ...formData, country: value });
+  };
+
+  const handleCountryKeyDown = (e) => {
+    if (e.key === "Enter" && highlightedCountry >= 0) {
+      handleCountrySelect(filteredCountries[highlightedCountry]);
+    }
+  };
+
+  const handleCountrySelect = (selected) => {
+    setCountryInput(selected);
+    setFormData({ ...formData, country: selected });
+    setFilteredCountries([]);
   };
 
   /* ====================== LANGUAGES ====================== */
@@ -434,8 +474,52 @@ const Form = ({ onSubmit }) => {
         >
           <label htmlFor={current.name}>{current.label}</label>
 
-          {/* ================== SKILLS ================== */}
-          {current.name === "skills" ? (
+          {/* ================== LOCATION (COUNTRY + CITY/ZIP) ================== */}
+          {current.name === "country" ? (
+            <div className="skills-input">
+              <input
+                type="text"
+                name="country"
+                id="country"
+                value={formData.country}
+                onChange={(e) => {
+                  setFormData({ ...formData, country: e.target.value });
+                  handleCountryInputChange(e.target.value);
+                }}
+                placeholder="Start typing your country..."
+              />
+              {filteredCountries.length > 0 && (
+                <ul className="skill-suggestions">
+                  {filteredCountries.map((ct, index) => (
+                    <li
+                      key={index}
+                      className={
+                        highlightedCountry === index ? "highlighted" : ""
+                      }
+                      onMouseDown={() =>
+                        setFormData({ ...formData, country: ct })
+                      }
+                    >
+                      {ct}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ) : current.name === "city" ? (
+            <div className="skills-input">
+              <input
+                type="text"
+                name="city"
+                id="city"
+                value={formData.city}
+                onChange={(e) =>
+                  setFormData({ ...formData, city: e.target.value })
+                }
+                placeholder="Enter your city / zipcode"
+              />
+            </div>
+          ) : current.name === "skills" ? (
             <div className="skills-input">
               <div
                 className="skills-wrapper"

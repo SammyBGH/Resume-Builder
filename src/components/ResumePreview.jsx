@@ -184,6 +184,7 @@ function ResumePreview({ data, onClose }) {
       </div>
 
       {/* Resume Preview */}
+      {/* Resume Preview */}
       <div className={`resume-preview template-${template}`} ref={resumeRef}>
         <div className="watermark">Resumio - Protected</div>
         <div className="resume-header">
@@ -199,9 +200,12 @@ function ResumePreview({ data, onClose }) {
                 <FaEnvelope /> {resumeData.email}
               </p>
             )}
-            {resumeData.location && (
+            {(resumeData.city || resumeData.country) && (
               <p>
-                <FaMapMarkerAlt /> {resumeData.location}
+                <FaMapMarkerAlt /> {resumeData.city ? resumeData.city : ""}
+                {resumeData.city && resumeData.country ? ", " : ""}
+                {resumeData.country ? resumeData.country : ""}
+                {resumeData.zipcode ? `, ${resumeData.zipcode}` : ""}
               </p>
             )}
             {resumeData.website && (
