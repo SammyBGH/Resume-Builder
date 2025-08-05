@@ -125,13 +125,11 @@
     padding: 12px;
     border-radius: 8px;
     max-height: 90vh;
-    overflow-x: hidden;
   }
 
   .modal-content .resume-preview {
     padding: 12px;
     font-size: 0.9rem;
-    overflow-x: hidden;
   }
 
   .modal-close {
