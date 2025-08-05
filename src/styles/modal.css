@@ -102,3 +102,59 @@
 .modal-container::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
+
+/* ===========================
+   ✅ MOBILE RESPONSIVENESS
+=========================== */
+@media (max-width: 768px) {
+  .modal-container {
+    width: 97%;
+    padding: 15px;
+    max-height: 85vh;
+  }
+
+  .modal-content .resume-preview {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-container {
+    width: 98%;
+    padding: 12px;
+    border-radius: 8px;
+    max-height: 90vh;
+  }
+
+  .modal-content .resume-preview {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .modal-close {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    top: 8px;
+    right: 8px;
+  }
+
+  /* ✅ Ensure content fits */
+  .resume-preview-wrapper {
+    padding: 10px;
+  }
+
+  .template-selector {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .template-selector button {
+    flex: 1 1 100px;
+    min-width: 80px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
