@@ -91,6 +91,7 @@ const Form = ({ onSubmit }) => {
   const [dotError, setDotError] = useState("");
 
   // Countries
+  // ✅ State variables
   const [countryInput, setCountryInput] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [highlightedCountry, setHighlightedCountry] = useState(-1);
@@ -263,26 +264,50 @@ const Form = ({ onSubmit }) => {
   };
 
   /* ====================== COUNTRIES ====================== */
+
+  // ✅ Handle input changes (filter countries in real time)
   const handleCountryInputChange = (value) => {
     setCountryInput(value);
-    setFilteredCountries(
-      countries.filter((country) =>
-        country.toLowerCase().includes(value.toLowerCase())
-      )
-    );
-    setFormData({ ...formData, country: value });
-  };
-
-  const handleCountryKeyDown = (e) => {
-    if (e.key === "Enter" && highlightedCountry >= 0) {
-      handleCountrySelect(filteredCountries[highlightedCountry]);
+    if (value.trim() === "") {
+      setFilteredCountries([]);
+      return;
     }
+    const matches = countries.filter((c) =>
+      c.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setFilteredCountries(matches);
+    setHighlightedCountry(-1);
   };
 
-  const handleCountrySelect = (selected) => {
-    setCountryInput(selected);
-    setFormData({ ...formData, country: selected });
-    setFilteredCountries([]);
+  // ✅ Handle selection (via click or Enter key)
+  const handleCountrySelect = (country) => {
+    setFormData({ ...formData, country });
+    setCountryInput(country);
+    setFilteredCountries([]); // ✅ Hide suggestions after selection
+  };
+
+  // ✅ Keyboard navigation (Arrow Up/Down + Enter)
+  const handleCountryKeyDown = (e) => {
+    if (filteredCountries.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedCountry((prev) =>
+        prev < filteredCountries.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedCountry((prev) =>
+        prev > 0 ? prev - 1 : filteredCountries.length - 1
+      );
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (highlightedCountry >= 0) {
+        handleCountrySelect(filteredCountries[highlightedCountry]);
+      } else if (filteredCountries.length === 1) {
+        handleCountrySelect(filteredCountries[0]);
+      }
+    }
   };
 
   /* ====================== LANGUAGES ====================== */
@@ -481,26 +506,23 @@ const Form = ({ onSubmit }) => {
                 type="text"
                 name="country"
                 id="country"
-                value={formData.country}
-                onChange={(e) => {
-                  setFormData({ ...formData, country: e.target.value });
-                  handleCountryInputChange(e.target.value);
-                }}
-                placeholder="Start typing your country..."
+                value={countryInput}
+                onChange={(e) => handleCountryInputChange(e.target.value)}
+                onKeyDown={handleCountryKeyDown}
+                placeholder="Type or select your country"
+                autoComplete="off"
               />
               {filteredCountries.length > 0 && (
                 <ul className="skill-suggestions">
-                  {filteredCountries.map((ct, index) => (
+                  {filteredCountries.map((country, index) => (
                     <li
                       key={index}
                       className={
                         highlightedCountry === index ? "highlighted" : ""
                       }
-                      onMouseDown={() =>
-                        setFormData({ ...formData, country: ct })
-                      }
+                      onMouseDown={() => handleCountrySelect(country)}
                     >
-                      {ct}
+                      {country}
                     </li>
                   ))}
                 </ul>
