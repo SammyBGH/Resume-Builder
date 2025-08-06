@@ -2,8 +2,8 @@ import React from "react";
 import "../styles/hero.css";
 
 const Hero = () => {
-  const scrollToSteps = () => {
-    const section = document.getElementById("steps");
+  const scrollToBuilders = () => {
+    const section = document.getElementById("builder");
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
@@ -18,7 +18,7 @@ const Hero = () => {
           Resumio helps you create a professional, standout resume in minutes with a
           simple, step-by-step form-based experience.
         </p>
-        <button className="hero-btn" onClick={scrollToSteps}>
+        <button className="hero-btn" onClick={scrollToBuilder}>
           Start Building
         </button>
       </div>
