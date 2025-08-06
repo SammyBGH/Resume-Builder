@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/hero.css";
 
 const Hero = () => {
-  const scrollToBuilders = () => {
+  const scrollToBuilder = () => {
     const section = document.getElementById("builder");
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
