@@ -17,7 +17,7 @@ function Footer() {
         </div>
 
         <div className="footer-socials">
-          <a href="#">🌐</a>
+          <a href="https://arkyne.vercel.app/">🌐</a>
           <a href="#">𝕏</a>
           <a href="#">ⓕ</a>
         </div>
