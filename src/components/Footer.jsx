@@ -27,7 +27,7 @@ function Footer() {
           <a href="#" target="_blank" rel="noopener noreferrer">
             𝕏
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/share/a68b9A4iHG/" target="_blank" rel="noopener noreferrer">
             ⓕ
           </a>
         </div>
