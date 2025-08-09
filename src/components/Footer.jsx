@@ -1,5 +1,5 @@
-import React from 'react';
-import '../styles/footer.css';
+import React from "react";
+import "../styles/footer.css";
 
 function Footer() {
   return (
@@ -17,9 +17,19 @@ function Footer() {
         </div>
 
         <div className="footer-socials">
-          <a href="https://arkyne.vercel.app/">🌐</a>
-          <a href="#">𝕏</a>
-          <a href="#">ⓕ</a>
+          <a
+            href="https://arkyne.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🌐
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            𝕏
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            ⓕ
+          </a>
         </div>
       </div>
       <div className="footer-bottom">
