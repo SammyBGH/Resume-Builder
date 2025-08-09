@@ -770,7 +770,7 @@ const Form = ({ onSubmit }) => {
       {loading && (
         <div className="loading-message">
           <div className="spinner"></div>
-          Generating your summary, please wait...
+          Generating your resume, please wait...
         </div>
       )}
 
